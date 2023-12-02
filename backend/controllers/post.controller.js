@@ -36,11 +36,10 @@ class PostController {
     }
 
     async getPosts(req, res) {
-        let items = [];
+        let items = null;
         try{
             const posts = await Post.findAll();
-            posts = posts.map(p => p.dataValues);
-            items = posts;
+            items = posts.map(p => p.dataValues);
         }catch(e){ console.log(e.message) }
 
         res.status(201).json(items);

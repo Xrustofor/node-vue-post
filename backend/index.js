@@ -1,5 +1,5 @@
-#! -*- coding: utf-8 -*-
 const express = require('express');
+const cors = require('cors');
 const sequelize = require('./db');
 const router = require('./routes');
 
@@ -7,8 +7,9 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+app.use(express.urlencoded({extended: true}))
 app.use(express.json());
-app.use('/api', router);
+app.use('/api', cors(), router);
 
 
 
