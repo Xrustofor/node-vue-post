@@ -41,10 +41,16 @@ import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
+    title: "Список постів",
+    caption: "create.post",
+    icon: "home",
+    link: "/",
+  },
+  {
     title: "Створити пост",
     caption: "create.post",
     icon: "add",
-    link: "/create-post",
+    link: "/post/create",
   },
   // {
   //   title: 'Github',

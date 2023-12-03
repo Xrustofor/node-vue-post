@@ -1,9 +1,16 @@
 const Post = require('../models/post');
+const { validationResult } = require('express-validator');
 
 class PostController {
     async createPost(req, res) {
         const {title, description, price, imagesId} = req.body;
         let item = {};
+
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+           return res.status(400).json({ errors: errors.array() });
+        }
+       
         try{
             const post = await Post.create({ title, description, price, imagesId })
             item = post.dataValues;
@@ -16,6 +23,12 @@ class PostController {
         const { id } = req.params;
         const {title, description, price, imagesId} = req.body;
         let item = {};
+
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+           return res.status(400).json({ errors: errors.array() });
+        }
+        
         try{
             const post = await Post.findByPk(id);
             post.update({ title, description, price, imagesId })

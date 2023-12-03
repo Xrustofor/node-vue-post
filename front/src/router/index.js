@@ -1,6 +1,11 @@
-import { route } from 'quasar/wrappers'
-import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
-import routes from './routes'
+import { route } from "quasar/wrappers";
+import {
+  createRouter,
+  createMemoryHistory,
+  createWebHistory,
+  createWebHashHistory,
+} from "vue-router";
+import routes from "./routes";
 
 /*
  * If not building with SSR mode, you can
@@ -12,10 +17,11 @@ import routes from './routes'
  */
 
 export default route(function (/* { store, ssrContext } */) {
-  const createHistory = process.env.SERVER
+  const createHistory = process.env.VUE_ROUTER_BASE
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
-
+    : process.env.VUE_ROUTER_MODE === "history"
+    ? createWebHistory
+    : createWebHashHistory;
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
@@ -23,8 +29,20 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE)
-  })
+    history: createWebHistory(),
+    // history: createHistory(process.env.VUE_ROUTER_BASE),
+  });
 
-  return Router
-})
+  // Router.beforeEach((to, from, next) => {
+  //   if (to.name !== 'Login' && !isAuthenticated()) next({ name: 'Login' })
+  //   else next()
+  // })
+
+  return Router;
+});
+
+const LOCAL_TOKEN = process.env.VUE_LOCAL_TOKEN;
+const isAuthenticated = () => {
+  const token = localStorage.getItem('token');
+  return LOCAL_TOKEN === token;
+}
