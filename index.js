@@ -4,7 +4,7 @@ const sequelize = require('./backend/db');
 const router = require('./backend/routes');
 const path = require('path');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || '3.75.158.163';
 
 const app = express();
 
