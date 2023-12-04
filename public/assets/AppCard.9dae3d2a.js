@@ -1,5 +1,5 @@
-import { c as computed, k as createComponent, r as ref, w as watch, n as onBeforeUnmount, h, aj as Transition, l as hSlot, ak as QSpinner, S as openBlock, U as createBlock, V as withCtx, f as createVNode, a0 as createBaseVNode, Z as toDisplayString, Y as createTextVNode, al as renderSlot, X as createCommentVNode } from "./index.51795816.js";
-import { a as QCardActions, b as QCard } from "./QCard.ab0a852d.js";
+import { c as computed, k as createComponent, r as ref, w as watch, n as onBeforeUnmount, h, aj as Transition, l as hSlot, ak as QSpinner, S as openBlock, U as createBlock, V as withCtx, f as createVNode, a0 as createBaseVNode, Z as toDisplayString, Y as createTextVNode, al as renderSlot, X as createCommentVNode } from "./index.95eb5085.js";
+import { a as QCardActions, b as QCard } from "./QCard.a848d8dc.js";
 import { _ as _export_sfc } from "./plugin-vue_export-helper.21dcd24c.js";
 const useRatioProps = {
   ratio: [String, Number]

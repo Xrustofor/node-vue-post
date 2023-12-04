@@ -9687,7 +9687,7 @@ axios$2.getAdapter = adapters.getAdapter;
 axios$2.HttpStatusCode = HttpStatusCode$1;
 axios$2.default = axios$2;
 var axios$3 = axios$2;
-const api = axios$3.create({ baseURL: "/api" });
+const api = axios$3.create({ baseURL: "https://promo-qag1.onrender.com/api" });
 api.interceptors.response.use(
   (res) => res.data,
   (err) => {
@@ -11511,17 +11511,17 @@ function useRoute() {
 const routes = [
   {
     path: "/",
-    component: () => __vitePreload(() => import("./MainLayout.eeb169a9.js"), true ? ["assets/MainLayout.eeb169a9.js","assets/use-dark.fc61f357.js","assets/use-timeout.18d85acd.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
+    component: () => __vitePreload(() => import("./MainLayout.57c17dab.js"), true ? ["assets/MainLayout.57c17dab.js","assets/use-dark.34ea6749.js","assets/use-timeout.4ca11f85.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
     children: [
-      { path: "", component: () => __vitePreload(() => import("./HomePage.7c40574c.js"), true ? ["assets/HomePage.7c40574c.js","assets/QInput.32c0f6a5.js","assets/use-dark.fc61f357.js","assets/QCard.ab0a852d.js","assets/format.801e7424.js","assets/AppCard.54849c05.js","assets/AppCard.25364ead.css","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
-      { path: "/post/create", component: () => __vitePreload(() => import("./CreateUpdatePage.79a9cbd6.js"), true ? ["assets/CreateUpdatePage.79a9cbd6.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.32c0f6a5.js","assets/use-dark.fc61f357.js","assets/QCard.ab0a852d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
-      { path: "/post/:idCard", component: () => __vitePreload(() => import("./CardPage.4c4c566c.js"), true ? ["assets/CardPage.4c4c566c.js","assets/AppCard.54849c05.js","assets/AppCard.25364ead.css","assets/QCard.ab0a852d.js","assets/use-dark.fc61f357.js","assets/plugin-vue_export-helper.21dcd24c.js","assets/use-timeout.18d85acd.js"] : void 0) },
-      { path: "/post/:idCard/update", component: () => __vitePreload(() => import("./CreateUpdatePage.79a9cbd6.js"), true ? ["assets/CreateUpdatePage.79a9cbd6.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.32c0f6a5.js","assets/use-dark.fc61f357.js","assets/QCard.ab0a852d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) }
+      { path: "", component: () => __vitePreload(() => import("./HomePage.3ea74545.js"), true ? ["assets/HomePage.3ea74545.js","assets/QInput.7ed73520.js","assets/use-dark.34ea6749.js","assets/QCard.a848d8dc.js","assets/format.801e7424.js","assets/AppCard.9dae3d2a.js","assets/AppCard.25364ead.css","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
+      { path: "/post/create", component: () => __vitePreload(() => import("./CreateUpdatePage.40400694.js"), true ? ["assets/CreateUpdatePage.40400694.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.7ed73520.js","assets/use-dark.34ea6749.js","assets/QCard.a848d8dc.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
+      { path: "/post/:idCard", component: () => __vitePreload(() => import("./CardPage.8cc5c4f0.js"), true ? ["assets/CardPage.8cc5c4f0.js","assets/AppCard.9dae3d2a.js","assets/AppCard.25364ead.css","assets/QCard.a848d8dc.js","assets/use-dark.34ea6749.js","assets/plugin-vue_export-helper.21dcd24c.js","assets/use-timeout.4ca11f85.js"] : void 0) },
+      { path: "/post/:idCard/update", component: () => __vitePreload(() => import("./CreateUpdatePage.40400694.js"), true ? ["assets/CreateUpdatePage.40400694.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.7ed73520.js","assets/use-dark.34ea6749.js","assets/QCard.a848d8dc.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) }
     ]
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => __vitePreload(() => import("./ErrorNotFound.e179edad.js"), true ? ["assets/ErrorNotFound.e179edad.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+    component: () => __vitePreload(() => import("./ErrorNotFound.5135cf65.js"), true ? ["assets/ErrorNotFound.5135cf65.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
   }
 ];
 var createRouter = route(function() {
@@ -13079,7 +13079,7 @@ createQuasarApp(createApp, quasarUserOptions).then((app2) => {
     (bootFiles) => bootFiles.map((entry) => entry.default)
   ];
   return Promise[method]([
-    __vitePreload(() => import("./i18n.43ef7e41.js"), true ? [] : void 0),
+    __vitePreload(() => import("./i18n.3e507f67.js"), true ? [] : void 0),
     __vitePreload(() => Promise.resolve().then(function() {
       return axios$1;
     }), true ? void 0 : void 0)

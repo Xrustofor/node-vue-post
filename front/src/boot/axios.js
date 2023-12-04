@@ -4,7 +4,7 @@ import axios from 'axios';
 import { postStore } from "../stores/post.store";
 
 // const api = axios.create({ baseURL: 'http://localhost:3000/api' })
-const api = axios.create({ baseURL: '/api' })
+const api = axios.create({ baseURL: 'https://promo-qag1.onrender.com/api' })
 
 api.interceptors.response.use(
   res => res.data,
