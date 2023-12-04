@@ -5,20 +5,26 @@ import { api } from '../boot/axios';
 export const postStore = defineStore('counter', {
   state: () => ({
     posts: [],
+    meta: null,
+    post: null,
     errors: null,
     message: null,
   }),
   getters: {
-    getPosts: (state) => state.posts,
-    getErrors: (state) => state.errors,
-    getMessage: (state) => state.message,
+    getPosts: state => state.posts,
+    getMeta: state => state.meta,
+    getPost: state => state.post,
+    getErrors: state => state.errors,
+    getMessage: state => state.message,
   },
 
   actions: {
-    async apiGetPosts(){
+    async apiGetPosts(page){
+      this.meta = null;
       try{
-        const posts = await api.get('/');
-        this.posts = posts;
+        const posts = await api.get('/', {params: {page: page || 1}});
+        this.posts = posts.items;
+        this.meta = posts.meta;
       }catch(e) { console.log(e.message) }
 
     },
@@ -32,16 +38,46 @@ export const postStore = defineStore('counter', {
         }
         return !!result.id
       }catch(e){
-        if([400].includes(e.response.status)){
-          const { errors } =  e.response.data
-          const items = errors.map(err => ({
-            field: err.path,
-            message: err.msg
-          }))
-          this.errors = items;
-        }
+        console.log(e);
       }
-
     },
+
+    async apiUpdateByPost(data, id){
+      try{
+        const result = await api.put(`/post/${id}`, data);
+        if(result.id){
+          this.message = "Пост успішно оновлено!"
+        }
+        return !!result.id
+      }catch(e){
+        console.log(e);
+      }
+    },
+
+    async apiGetByPost(id){
+      try{
+        this.post = await api.get(`/post/${id}`);
+        return this.post;
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async apiDeleteByPost(id){
+      this.message = null;
+      try{
+        const result = await api.delete(`/post/${id}`);
+        if(result.id){
+          this.message = "Пост успішно Видаленний!"
+        }
+        return !!result.id
+      }catch(e){
+        console.log(e);
+      }
+    },
+
+
+    setErrors(errors){
+      this.errors = errors
+    }
   },
 });

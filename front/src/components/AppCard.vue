@@ -9,9 +9,8 @@
     <q-card-section>
       {{ item.description }}
     </q-card-section>
-    <q-card-actions>
-      <q-btn flat>Action 1</q-btn>
-      <q-btn flat>Action 2</q-btn>
+    <q-card-actions class="row justify-between q-mb-sm">
+      <slot name="actions"></slot>
     </q-card-actions>
   </q-card>
 </template>

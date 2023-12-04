@@ -1,15 +1,29 @@
 const express = require('express');
 const cors = require('cors');
-const sequelize = require('./db');
-const router = require('./routes');
+const sequelize = require('./backend/db');
+const router = require('./backend/routes');
+const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+app.use(express.static('public', {
+    extensions: ['htm', 'html'],
+    index: false,
+  }));
+
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
+
+
+
 app.use('/api', cors(), router);
+
+app.get('*', cors(), (req,res) => {
+    res.status(200)
+    res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
 
 
 

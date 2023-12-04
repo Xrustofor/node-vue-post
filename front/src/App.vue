@@ -23,7 +23,6 @@ watch(errors, (newErrors) => {
   }
 });
 watch(message, (newMessage) => {
-  console.log(newMessage);
   if (newMessage) {
     $q.notify({
       position: "top-right",

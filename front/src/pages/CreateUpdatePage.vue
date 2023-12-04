@@ -1,7 +1,9 @@
 <template>
   <q-page class="flex items-center q-mt-lg column">
     <q-card class="component q-pa-md">
-      <div class="text-h5 text-center q-pb-lg">Створення посту</div>
+      <div class="text-h5 text-center q-pb-lg">
+        {{ id ? "Реагування картки" : "Створення картки" }}
+      </div>
       <form
         @submit.prevent.stop="onSubmit"
         @reset.prevent.stop="onReset"
@@ -14,7 +16,7 @@
             filled
             clearable
             v-model="title"
-            label="Введіть заголовок посту *"
+            label="Введіть заголовок картки *"
             hint="Поле не має бути пустим."
             lazy-rules
             :rules="titleRules"
@@ -43,7 +45,7 @@
           autogrow
           type="textarea"
           v-model="description"
-          label="Опис посту *"
+          label="Опис картки *"
           hint="Поле не має бути пустим."
           lazy-rules
           :rules="descriptionRules"
@@ -75,16 +77,32 @@
 
 <script setup>
 import { useQuasar } from "quasar";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { postStore } from "../stores/post.store";
+import { useRoute } from "vue-router";
+
 const $q = useQuasar();
 const store = postStore();
+const route = useRoute();
+
 const title = ref(null);
 const titleRef = ref(null);
 const description = ref(null);
 const descriptionRef = ref(null);
 const price = ref(null);
 const priceRef = ref(null);
+
+const { idCard } = route.params;
+const id = ref(idCard || null);
+
+onMounted(async () => {
+  if (!idCard) return;
+  const item = await store.apiGetByPost(idCard);
+  if (!item) return;
+  title.value = item.title;
+  description.value = item.description;
+  price.value = item.price;
+});
 
 const titleRules = [
   (val) =>
@@ -118,23 +136,28 @@ const onSubmit = async () => {
       price: price.value,
       description: description.value,
     };
-    const result = await store.apiCreatePost(data);
-    if (result) {
-      title.value = null;
-      description.value = null;
-      price.value = null;
+    send(data);
+  }
+
+  async function send(data) {
+    let result = null;
+    if (id.value) {
+      result = await store.apiUpdateByPost(data, id.value);
+    } else {
+      result = await store.apiCreatePost(data);
+      if (result) onReset();
     }
   }
 };
 
-const onReset = () => {
+function onReset() {
   title.value = null;
   description.value = null;
   price.value = null;
   titleRef.value.resetValidation();
   descriptionRef.value.resetValidation();
   priceRef.value.resetValidation();
-};
+}
 </script>
 
 <style lang="scss" scoped>

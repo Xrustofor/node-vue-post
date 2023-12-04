@@ -39,23 +39,58 @@ class PostController {
     }
 
     async deletePost(req, res) {
-        const { id } = req.query;
+        const { id } = req.params;
         try{
             const post = await Post.findByPk(id);
-            if(post){ post.destroy() }
-        }catch(e){ console.log(e.message) }
-        
-        res.status(201).json({id});
+            if(post){ 
+                post.destroy();
+                res.status(201).json({id});
+            }else{
+                res.status(400).json({ errors: [{path: 'id', msg: 'No such id exists'}] });
+            }
+        }catch(e){
+            console.log(e.message);
+            res.status(400).json({ errors: [{path: 'id', msg: e.message}] });
+        }        
     }
 
     async getPosts(req, res) {
-        let items = null;
+        const {page} = req.query;
+            const data = {
+            meta: {
+                pages: 0,
+                page: +page || 1,
+                offset: 0,
+                limit: 5,
+                count: null
+            },           
+            items: null,            
+        };
+
         try{
-            const posts = await Post.findAll();
-            items = posts.map(p => p.dataValues);
+            const count = await Post.count();
+            data.meta.count = count ? count -1 : 1;
+            if(data.meta.count > 0){
+                data.meta.pages = Math.floor(data.meta.count / data.meta.limit, 1);
+                if(data.meta.count >= data.meta.limit * data.meta.page){
+                    data.meta.offset = (data.meta.page == 1) ? 0 : data.meta.limit * data.meta.page;
+                }else if(data.meta.count < data.meta.limit * data.meta.page) {
+                    data.meta.offset = data.meta.count - data.meta.limit;
+                    data.meta.page = data.meta.pages;
+                }else{
+                    data.meta.offset = 0;
+                }
+            }
+            const posts = await Post.findAll({ 
+                order: [['updatedAt', 'DESC']],
+                offset: data.meta.offset,
+                limit: data.meta.limit,
+            });
+            data.items = posts.map(p => p.dataValues);
+            
         }catch(e){ console.log(e.message) }
 
-        res.status(201).json(items);
+        res.status(201).json(data);
     }
 
     async getByPost(req, res) {
