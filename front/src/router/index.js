@@ -38,6 +38,14 @@ export default route(function (/* { store, ssrContext } */) {
   //   else next()
   // })
 
+  Router.beforeEach((to, from, next) => {
+    const documentTitle = to.meta.title ? `${to.meta.title}` : "";
+    document.title = `${documentTitle}`;
+    next()
+  })
+
+
+
   return Router;
 });
 
