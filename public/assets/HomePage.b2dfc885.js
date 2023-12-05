@@ -1,9 +1,9 @@
-import { h, k as createComponent, ab as btnDesignOptions, c as computed, r as ref, w as watch, g as getCurrentInstance, ac as btnPadding, ad as getBtnDesign, R as isKeyCode, $ as QBtn, ae as postStore, af as useRoute, ag as useRouter, o as onMounted, _ as resolveComponent, S as openBlock, U as createBlock, V as withCtx, a1 as createElementBlock, a2 as renderList, F as Fragment, X as createCommentVNode, f as createVNode } from "./index.95eb5085.js";
-import { Q as QInput } from "./QInput.7ed73520.js";
-import { u as useDarkProps, a as useDark } from "./use-dark.34ea6749.js";
+import { h, k as createComponent, ab as btnDesignOptions, c as computed, r as ref, w as watch, g as getCurrentInstance, ac as btnPadding, ad as getBtnDesign, R as isKeyCode, $ as QBtn, ae as postStore, af as useRoute, ag as useRouter, o as onMounted, _ as resolveComponent, S as openBlock, U as createBlock, V as withCtx, a1 as createElementBlock, a2 as renderList, F as Fragment, X as createCommentVNode, f as createVNode } from "./index.a5cf7ac6.js";
+import { Q as QInput } from "./QInput.67785307.js";
+import { u as useDarkProps, a as useDark } from "./use-dark.54d6c3e0.js";
 import { b as between } from "./format.801e7424.js";
-import { Q as QPage } from "./QCard.a848d8dc.js";
-import { A as AppCard } from "./AppCard.9dae3d2a.js";
+import { Q as QPage } from "./QCard.04ee0b73.js";
+import { A as AppCard } from "./AppCard.72541c59.js";
 import "./plugin-vue_export-helper.21dcd24c.js";
 const space = h("div", { class: "q-space" });
 var QSpace = createComponent({
@@ -431,7 +431,7 @@ const _sfc_main = {
             }, 1032, ["item"]);
           }), 128)),
           meta.value ? (openBlock(), createElementBlock("div", _hoisted_1, [
-            meta.value.pages ? (openBlock(), createBlock(QPagination, {
+            meta.value.count ? (openBlock(), createBlock(QPagination, {
               key: 0,
               modelValue: page.value,
               "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => page.value = $event),

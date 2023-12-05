@@ -8,6 +8,8 @@ const CONFIG = require('./environment');
 
 const PORT = CONFIG.PORT;
 
+
+
 const app = express();
 
 app.use(express.static('public', {

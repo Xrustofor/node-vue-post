@@ -15,7 +15,7 @@
     </app-card>
     <div class="q-gutter-md" v-if="meta">
       <q-pagination
-        v-if="meta.pages"
+        v-if="meta.count"
         v-model="page"
         :max="meta.pages"
         direction-links

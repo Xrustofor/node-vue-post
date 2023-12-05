@@ -55,43 +55,35 @@ class PostController {
     }
 
     async getPosts(req, res) {
-        const {page} = req.query;
-            const data = {
-            meta: {
-                pages: 0,
-                page: +page || 1,
-                offset: 0,
-                limit: 5,
-                count: null
-            },           
-            items: null,            
-        };
-
+        const { page } = req.query;
+        let limit = 3;
+        let offset = 0 + ((+page || 1) - 1) * limit;
+        let pages = 0;
+        
         try{
-            const count = await Post.count();
-            data.meta.count = count ? count -1 : 1;
-            if(data.meta.count > 0){
-                data.meta.pages = Math.floor(data.meta.count / data.meta.limit, 1);
-                if(data.meta.count >= data.meta.limit * data.meta.page){
-                    data.meta.offset = (data.meta.page == 1) ? 0 : data.meta.limit * data.meta.page;
-                }else if(data.meta.count < data.meta.limit * data.meta.page) {
-                    data.meta.offset = data.meta.count - data.meta.limit;
-                    data.meta.page = data.meta.pages;
-                }else{
-                    data.meta.offset = 0;
-                }
-            }
-            const posts = await Post.findAll({ 
+            const posts = await Post.findAndCountAll({
+                offset: offset,
+                limit: limit,
                 order: [['updatedAt', 'DESC']],
-                offset: data.meta.offset,
-                limit: data.meta.limit,
-            });
-            data.items = posts.map(p => p.dataValues);
+            }).then( res => {
+                pages = Math.ceil(res.count / limit) || 1;
+                return {
+                    meta: {
+                        count: res.count,
+                        limit,
+                        offset,
+                        pages
+                    },                    
+                    items: res.rows
+                };
+            } )
             
-        }catch(e){ console.log(e.message) }
-
-        res.status(201).json(data);
-    }
+            res.status(200).json(posts);
+        }catch(e){ 
+          console.log(e.message)
+          res.status(400).json({ errors: [{path: 'cards', msg: e.message}] });
+        }
+     }
 
     async getByPost(req, res) {
         const { id } = req.params;

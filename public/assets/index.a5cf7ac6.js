@@ -8896,12 +8896,12 @@ var cookies = platform.hasStandardBrowserEnv ? {
 function isAbsoluteURL(url) {
   return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
 }
-function combineURLs(baseURL, relativeURL) {
-  return relativeURL ? baseURL.replace(/\/+$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
+function combineURLs(baseURL2, relativeURL) {
+  return relativeURL ? baseURL2.replace(/\/+$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL2;
 }
-function buildFullPath(baseURL, requestedURL) {
-  if (baseURL && !isAbsoluteURL(requestedURL)) {
-    return combineURLs(baseURL, requestedURL);
+function buildFullPath(baseURL2, requestedURL) {
+  if (baseURL2 && !isAbsoluteURL(requestedURL)) {
+    return combineURLs(baseURL2, requestedURL);
   }
   return requestedURL;
 }
@@ -9687,7 +9687,8 @@ axios$2.getAdapter = adapters.getAdapter;
 axios$2.HttpStatusCode = HttpStatusCode$1;
 axios$2.default = axios$2;
 var axios$3 = axios$2;
-const api = axios$3.create({ baseURL: "https://promo-qag1.onrender.com/api" });
+const baseURL = "https://promo-qag1.onrender.com/api";
+const api = axios$3.create({ baseURL });
 api.interceptors.response.use(
   (res) => res.data,
   (err) => {
@@ -11511,17 +11512,17 @@ function useRoute() {
 const routes = [
   {
     path: "/",
-    component: () => __vitePreload(() => import("./MainLayout.57c17dab.js"), true ? ["assets/MainLayout.57c17dab.js","assets/use-dark.34ea6749.js","assets/use-timeout.4ca11f85.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
+    component: () => __vitePreload(() => import("./MainLayout.bf13c3f3.js"), true ? ["assets/MainLayout.bf13c3f3.js","assets/use-dark.54d6c3e0.js","assets/use-timeout.e460b770.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
     children: [
-      { path: "", component: () => __vitePreload(() => import("./HomePage.3ea74545.js"), true ? ["assets/HomePage.3ea74545.js","assets/QInput.7ed73520.js","assets/use-dark.34ea6749.js","assets/QCard.a848d8dc.js","assets/format.801e7424.js","assets/AppCard.9dae3d2a.js","assets/AppCard.25364ead.css","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
-      { path: "/post/create", component: () => __vitePreload(() => import("./CreateUpdatePage.40400694.js"), true ? ["assets/CreateUpdatePage.40400694.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.7ed73520.js","assets/use-dark.34ea6749.js","assets/QCard.a848d8dc.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
-      { path: "/post/:idCard", component: () => __vitePreload(() => import("./CardPage.8cc5c4f0.js"), true ? ["assets/CardPage.8cc5c4f0.js","assets/AppCard.9dae3d2a.js","assets/AppCard.25364ead.css","assets/QCard.a848d8dc.js","assets/use-dark.34ea6749.js","assets/plugin-vue_export-helper.21dcd24c.js","assets/use-timeout.4ca11f85.js"] : void 0) },
-      { path: "/post/:idCard/update", component: () => __vitePreload(() => import("./CreateUpdatePage.40400694.js"), true ? ["assets/CreateUpdatePage.40400694.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.7ed73520.js","assets/use-dark.34ea6749.js","assets/QCard.a848d8dc.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) }
+      { path: "", component: () => __vitePreload(() => import("./HomePage.b2dfc885.js"), true ? ["assets/HomePage.b2dfc885.js","assets/QInput.67785307.js","assets/use-dark.54d6c3e0.js","assets/QCard.04ee0b73.js","assets/format.801e7424.js","assets/AppCard.72541c59.js","assets/AppCard.25364ead.css","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
+      { path: "/post/create", component: () => __vitePreload(() => import("./CreateUpdatePage.cdefec11.js"), true ? ["assets/CreateUpdatePage.cdefec11.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.67785307.js","assets/use-dark.54d6c3e0.js","assets/QCard.04ee0b73.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
+      { path: "/post/:idCard", component: () => __vitePreload(() => import("./CardPage.877d6484.js"), true ? ["assets/CardPage.877d6484.js","assets/AppCard.72541c59.js","assets/AppCard.25364ead.css","assets/QCard.04ee0b73.js","assets/use-dark.54d6c3e0.js","assets/plugin-vue_export-helper.21dcd24c.js","assets/use-timeout.e460b770.js"] : void 0) },
+      { path: "/post/:idCard/update", component: () => __vitePreload(() => import("./CreateUpdatePage.cdefec11.js"), true ? ["assets/CreateUpdatePage.cdefec11.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.67785307.js","assets/use-dark.54d6c3e0.js","assets/QCard.04ee0b73.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) }
     ]
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => __vitePreload(() => import("./ErrorNotFound.5135cf65.js"), true ? ["assets/ErrorNotFound.5135cf65.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+    component: () => __vitePreload(() => import("./ErrorNotFound.beebbd1d.js"), true ? ["assets/ErrorNotFound.beebbd1d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
   }
 ];
 var createRouter = route(function() {
@@ -13079,7 +13080,7 @@ createQuasarApp(createApp, quasarUserOptions).then((app2) => {
     (bootFiles) => bootFiles.map((entry) => entry.default)
   ];
   return Promise[method]([
-    __vitePreload(() => import("./i18n.3e507f67.js"), true ? [] : void 0),
+    __vitePreload(() => import("./i18n.f99b6926.js"), true ? [] : void 0),
     __vitePreload(() => Promise.resolve().then(function() {
       return axios$1;
     }), true ? void 0 : void 0)

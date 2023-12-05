@@ -7,9 +7,8 @@ const CONFIG = {
   DB_HOST: "localhost",
   DB_PORT: "5432",
   PORT: "3000",
+  PORT_CLIENT:'8080'
 };
-
-console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
   CONFIG.DB_DATABASE = process.env.DB_DATABASE;
@@ -18,6 +17,7 @@ if (process.env.NODE_ENV === 'production') {
   CONFIG.DB_HOST = process.env.DB_HOST;
   CONFIG.DB_PORT = process.env.DB_PORT;
   CONFIG.PORT = process.env.PORT;
+  CONFIG.PORT_CLIENT = process.env.PORT_CLIENT;
 }
 
 module.exports = CONFIG;
