@@ -1,14 +1,15 @@
 const { Sequelize } = require('sequelize');
+const CONFIG = require('../environment');
 
-const database = 'promo_8bln'; //'promo';
-const username = 'xrustofor'; //'postgres';
-const password = 'gn1FFVI8Lr9gXritowttekXt8dUFHibU'; //'ouzD6984';
+const database = CONFIG.DB_DATABASE;
+const username = CONFIG.DB_USERNAME;
+const password = CONFIG.DB_PASSWORD;
 
 
 const sequelize = new Sequelize(database, username, password, {
-    host: 'dpg-cln1jm4jtl8s73abhg6g-a',
+    host: CONFIG.DB_HOST,
     dialect: 'postgres',
-    port: '5432'
+    port: CONFIG.DB_PORT
 })
 
 module.exports = sequelize;
