@@ -8,8 +8,20 @@ const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/
 
 const api = axios.create({ baseURL })
 
+api.interceptors.request.use(function (config) {
+  const store = postStore();
+  store.setLoading(true);
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
 api.interceptors.response.use(
-  res => res.data,
+  res => {
+    const store = postStore();
+    store.setLoading(false);
+    return res.data
+  },
   err => {
     const store = postStore();
 
@@ -20,6 +32,7 @@ api.interceptors.response.use(
         message: err.msg
       }))
       store.setErrors(items);
+      store.setLoading(false);
     }
 
     if (err.response && typeof err.response.data === "string") {

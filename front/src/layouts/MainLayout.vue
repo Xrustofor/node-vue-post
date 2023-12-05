@@ -29,83 +29,46 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <div class="page_layout">
+        <router-view />
+        <AppLoading :show="loading" />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
 
-<script>
-import { defineComponent, ref } from "vue";
+<script setup>
+import { ref, computed } from "vue";
+import { postStore } from "../stores/post.store";
 import EssentialLink from "components/EssentialLink.vue";
+import AppLoading from "components/AppLoading.vue";
 
-const linksList = [
+const store = postStore();
+const loading = computed(() => store.getLoading);
+
+const essentialLinks = [
   {
-    title: "Список постів",
-    caption: "create.post",
+    title: "Список кврток",
+    caption: "Показати картки",
     icon: "home",
     link: "/",
   },
   {
-    title: "Створити пост",
-    caption: "create.post",
+    title: "Створити",
+    caption: "Створити картку",
     icon: "add",
     link: "/post/create",
   },
-  // {
-  //   title: 'Github',
-  //   caption: 'github.com/quasarframework',
-  //   icon: 'code',
-  //   link: 'https://github.com/quasarframework'
-  // },
-  // {
-  //   title: 'Discord Chat Channel',
-  //   caption: 'chat.quasar.dev',
-  //   icon: 'chat',
-  //   link: 'https://chat.quasar.dev'
-  // },
-  // {
-  //   title: 'Forum',
-  //   caption: 'forum.quasar.dev',
-  //   icon: 'record_voice_over',
-  //   link: 'https://forum.quasar.dev'
-  // },
-  // {
-  //   title: 'Twitter',
-  //   caption: '@quasarframework',
-  //   icon: 'rss_feed',
-  //   link: 'https://twitter.quasar.dev'
-  // },
-  // {
-  //   title: 'Facebook',
-  //   caption: '@QuasarFramework',
-  //   icon: 'public',
-  //   link: 'https://facebook.quasar.dev'
-  // },
-  // {
-  //   title: 'Quasar Awesome',
-  //   caption: 'Community Quasar projects',
-  //   icon: 'favorite',
-  //   link: 'https://awesome.quasar.dev'
-  // }
 ];
 
-export default defineComponent({
-  name: "MainLayout",
+const leftDrawerOpen = ref(false);
 
-  components: {
-    EssentialLink,
-  },
-
-  setup() {
-    const leftDrawerOpen = ref(false);
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-    };
-  },
-});
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+};
 </script>
+<style lang="scss" scoped>
+.page_layout {
+  position: relative;
+}
+</style>

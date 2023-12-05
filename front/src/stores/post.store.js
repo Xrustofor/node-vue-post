@@ -9,6 +9,7 @@ export const postStore = defineStore('counter', {
     post: null,
     errors: null,
     message: null,
+    loading: false,
   }),
   getters: {
     getPosts: state => state.posts,
@@ -16,6 +17,7 @@ export const postStore = defineStore('counter', {
     getPost: state => state.post,
     getErrors: state => state.errors,
     getMessage: state => state.message,
+    getLoading: state => state.loading,
   },
 
   actions: {
@@ -75,7 +77,9 @@ export const postStore = defineStore('counter', {
       }
     },
 
-
+    setLoading(payload){
+      this.loading = payload;
+    },
     setErrors(errors){
       this.errors = errors
     }
