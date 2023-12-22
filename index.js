@@ -22,6 +22,8 @@ app.use(express.static('public', {
     extensions: ['htm', 'html'],
     index: false,
 }));
+console.log('index.js __dirname: ', join(__dirname));
+console.log('index.js upload_url: ', join(__dirname, 'upload'));
 
 app.use('/upload', express.static(join(__dirname, 'upload')));
 

@@ -10,6 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const upload_url = join(__dirname, '../../', 'upload')
 
+console.log('product.controller upload_url: ', upload_url);
 
 import CONFIG from "../../env.config.js";
 
