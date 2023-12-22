@@ -21,7 +21,7 @@ const CONFIG = {
     CONFIG.DB_PORT = process.env.DB_PORT;
     CONFIG.PORT = process.env.PORT;
     CONFIG.PORT_CLIENT = process.env.PORT_CLIENT;
-    CONFIG.PATH = process.env.PATH || '.';
+    CONFIG.PATH = process.env.URL_DOMAIN;
   }
 
   export default CONFIG;
