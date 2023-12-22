@@ -11,8 +11,6 @@ const __dirname = dirname(__filename);
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, join(`${__dirname}/../../upload`));
-
-    console.log('upload.js upload_url: ', join(`${__dirname}/../../upload`));
   },
   filename: (req, file, callback) => {
     const match = ["image/png", "image/jpeg", "image/webp"];
@@ -24,10 +22,6 @@ const storage = multer.diskStorage({
     const strList = file.mimetype.split('/');
     const typeImage = strList[strList.length - 1];
     let filename = `${crypto.randomUUID()}.${typeImage}`;
-    // const isChanged = file.originalname.indexOf("changed-");
-    // if(isChanged != -1){
-    //   filename = file.originalname.split("changed-")[2]
-    // }
     callback(null, filename);
   },
   fields: (() => {
