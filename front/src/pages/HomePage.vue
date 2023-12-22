@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center column">
+  <q-page class="flex flex-center column q-pb-lg">
     <app-card
       class="q-ma-md"
       v-for="item of items"
@@ -54,7 +54,7 @@ watch(page, async (newPage) => {
 const items = computed(() => store.getPosts);
 
 const getPosts = async () => {
-  await store.apiGetPosts(+route.query.page || 1);
+  await store.apiGetProducts(+route.query.page || 1);
 };
 
 const setQueryPage = async (page) => {

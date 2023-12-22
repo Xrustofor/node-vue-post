@@ -1,0 +1,17 @@
+.component[data-v-666ea992] {
+  max-width: 700px;
+  width: 100%;
+}
+.title_price[data-v-666ea992] {
+  flex-wrap: wrap;
+  align-items: center;
+}
+.title_price div[data-v-666ea992] {
+  display: flex;
+  margin: 10px 0;
+}
+.title_price .title[data-v-666ea992] {
+  min-width: 200px;
+  padding-right: 15px;
+  flex: 1;
+}

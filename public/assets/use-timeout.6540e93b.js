@@ -1,4 +1,4 @@
-import { n as onBeforeUnmount, a7 as History, w as watch, a8 as vmHasRouter, o as onMounted, g as getCurrentInstance, q as nextTick, a9 as css, aa as getElement, y as client, s as listenOpts, H as stopAndPrevent, ab as getEventPath, ac as onDeactivated, ad as vmIsDestroyed } from "./index.892b4ed7.js";
+import { n as onBeforeUnmount, a6 as History, w as watch, a7 as vmHasRouter, o as onMounted, g as getCurrentInstance, q as nextTick, a8 as css, a9 as getElement, y as client, s as listenOpts, H as stopAndPrevent, aa as getEventPath, ab as onDeactivated, ac as vmIsDestroyed } from "./index.5a9e3cd6.js";
 function useHistory(showing, hide, hideOnRouteChange) {
   let historyEntry;
   function removeFromHistory() {

@@ -1,14 +1,14 @@
-const { Router } = require('express');
-const postController = require('../controllers/post.controller');
-const validationMiddleware = require('../middlewares/validation.middleware')
-const { body, query } = require('express-validator');
+import { Router } from "express";
+import productController from "../controllers/product.controller.js";
+import validationMiddleware from "../middlewares/validation.middleware.js"
+import upload from "../middlewares/upload.js"
 
 const router = new Router();
 
-router.get('/', postController.getPosts);
-router.get('/post/:id', postController.getByPost);
-router.post('/post', validationMiddleware, postController.createPost);
-router.put('/post/:id', validationMiddleware, postController.updatePost);
-router.delete('/post/:id', postController.deletePost);
+router.get('/', productController.getProducts);
+router.get('/post/:id', productController.getByProduct);
+router.post('/post', upload, validationMiddleware, productController.createProduct);
+router.put('/post/:id', upload, validationMiddleware, productController.updateProduct);
+router.delete('/post/:id', productController.deleteProduct);
 
-module.exports = router;
+export default router;

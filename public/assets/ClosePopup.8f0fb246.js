@@ -1,9 +1,6 @@
-import { ac as onDeactivated, n as onBeforeUnmount, q as nextTick, ad as vmIsDestroyed, g as getCurrentInstance, c as computed, aw as getParentProxy, r as ref, a as onUnmounted, aq as injectProp, h, ax as Teleport, ay as createGlobalNode, az as removeGlobalNode, y as client, R as isKeyCode, k as createComponent, w as watch, al as Transition, l as hSlot, aA as childHasFocus, x as createDirective, a3 as postStore, ah as useRoute, ai as useRouter, o as onMounted, S as resolveComponent, U as openBlock, V as createBlock, W as withCtx, f as createVNode, a4 as QBtn, a2 as createBaseVNode, _ as toDisplayString, I as withDirectives } from "./index.892b4ed7.js";
-import { A as AppCard, Q as QCardSection } from "./AppCard.f184151f.js";
-import { d as removeFocusWaitFlag, e as addFocusWaitFlag, c as addFocusFn, Q as QPage, b as QCard } from "./QCard.5725e9d7.js";
-import { u as useModelToggleProps, a as useModelToggleEmits, b as useTimeout, c as useModelToggle, d as useHistory, e as usePreventScroll } from "./use-timeout.1f42a1fb.js";
-import "./plugin-vue_export-helper.21dcd24c.js";
-import "./use-dark.f61784c2.js";
+import { ab as onDeactivated, n as onBeforeUnmount, q as nextTick, ac as vmIsDestroyed, g as getCurrentInstance, c as computed, aC as getParentProxy, r as ref, a as onUnmounted, at as injectProp, h, aD as Teleport, aE as createGlobalNode, aF as removeGlobalNode, y as client, Q as isKeyCode, k as createComponent, w as watch, al as Transition, l as hSlot, aG as childHasFocus, x as createDirective } from "./index.5a9e3cd6.js";
+import { u as useModelToggleProps, a as useModelToggleEmits, b as useTimeout, c as useModelToggle, d as useHistory, e as usePreventScroll } from "./use-timeout.6540e93b.js";
+import { e as removeFocusWaitFlag, f as addFocusWaitFlag, d as addFocusFn } from "./QCard.3063142f.js";
 function useTick() {
   let tickFn;
   const vm = getCurrentInstance();
@@ -551,104 +548,4 @@ var ClosePopup = createDirective(
     }
   }
 );
-const _hoisted_1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "\u0423\u0432\u0430\u0433\u0430!", -1);
-const _hoisted_2 = { class: "text" };
-const _sfc_main = {
-  __name: "CardPage",
-  setup(__props) {
-    const store = postStore();
-    const route = useRoute();
-    const router = useRouter();
-    const { idCard } = route.params;
-    const item = computed(() => store.getPost);
-    const dialog = ref(false);
-    onMounted(async () => {
-      await store.apiGetByPost(idCard);
-    });
-    const remove = async () => {
-      const result = await store.apiDeleteByPost(idCard);
-      if (result) {
-        router.push("/");
-      }
-    };
-    return (_ctx, _cache) => {
-      const _component_router_link = resolveComponent("router-link");
-      return openBlock(), createBlock(QPage, { class: "flex flex-center column" }, {
-        default: withCtx(() => [
-          createVNode(AppCard, { item: item.value }, {
-            actions: withCtx(() => [
-              createVNode(_component_router_link, {
-                to: `/post/${item.value.id}/update`
-              }, {
-                default: withCtx(() => [
-                  createVNode(QBtn, {
-                    color: "primary",
-                    label: "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438"
-                  })
-                ]),
-                _: 1
-              }, 8, ["to"]),
-              createVNode(_component_router_link, {
-                to: `/post/${item.value.id}`
-              }, {
-                default: withCtx(() => [
-                  createVNode(QBtn, {
-                    color: "warning",
-                    label: "\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438",
-                    onClick: _cache[0] || (_cache[0] = ($event) => dialog.value = true)
-                  })
-                ]),
-                _: 1
-              }, 8, ["to"])
-            ]),
-            _: 1
-          }, 8, ["item"]),
-          createVNode(QDialog, {
-            modelValue: dialog.value,
-            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => dialog.value = $event)
-          }, {
-            default: withCtx(() => [
-              createVNode(QCard, null, {
-                default: withCtx(() => [
-                  createVNode(QCardSection, null, {
-                    default: withCtx(() => [
-                      _hoisted_1
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(QCardSection, null, {
-                    default: withCtx(() => [
-                      createBaseVNode("div", _hoisted_2, "\u0412\u0438 \u0434\u0456\u0439\u0441\u043D\u043D\u043E \u0445\u043E\u0447\u0435\u0442\u0435 \u0432\u0430\u0434\u0430\u043B\u0438\u0442\u0438: " + toDisplayString(item.value.title) + " ?", 1)
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(QCardSection, { class: "row justify-between" }, {
-                    default: withCtx(() => [
-                      createVNode(QBtn, {
-                        onClick: _cache[1] || (_cache[1] = ($event) => dialog.value = false),
-                        label: "\u041D\u0456",
-                        color: "primary"
-                      }),
-                      withDirectives(createVNode(QBtn, {
-                        label: "\u0422\u0430\u043A",
-                        color: "warning",
-                        onClick: _cache[2] || (_cache[2] = ($event) => remove())
-                      }, null, 512), [
-                        [ClosePopup]
-                      ])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }, 8, ["modelValue"])
-        ]),
-        _: 1
-      });
-    };
-  }
-};
-export { _sfc_main as default };
+export { ClosePopup as C, QDialog as Q };

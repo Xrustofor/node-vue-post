@@ -1,6 +1,7 @@
-import { k as createComponent, c as computed, h, l as hSlot, r as ref, m as isRuntimeSsrPreHydration, o as onMounted, n as onBeforeUnmount, p as noop, q as nextTick, g as getCurrentInstance, s as listenOpts, i as inject, t as emptyRenderFn, u as layoutKey, w as watch, v as hUniqueSlot, P as Platform, x as createDirective, y as client, z as leftClick, A as addEvt, B as preventDraggable, C as prevent, D as stop, E as position, G as cleanEvt, H as stopAndPrevent, I as withDirectives, J as hDir, K as provide, L as pageContainerKey, M as reactive, a as onUnmounted, N as hMergeSlot, O as useRouterLinkProps, Q as useRouterLink, R as isKeyCode, d as defineComponent, S as resolveComponent, U as openBlock, V as createBlock, W as withCtx, f as createVNode, X as QIcon, Y as createCommentVNode, Z as createTextVNode, _ as toDisplayString, $ as createElementBlock, a0 as pushScopeId, a1 as popScopeId, a2 as createBaseVNode, a3 as postStore, a4 as QBtn, a5 as renderList, F as Fragment, a6 as mergeProps } from "./index.892b4ed7.js";
-import { u as useDarkProps, a as useDark } from "./use-dark.f61784c2.js";
-import { u as useModelToggleProps, a as useModelToggleEmits, b as useTimeout, c as useModelToggle, d as useHistory, e as usePreventScroll, g as getScrollTarget, f as getVerticalScrollPosition, h as getHorizontalScrollPosition, i as getScrollbarWidth } from "./use-timeout.1f42a1fb.js";
+import { k as createComponent, c as computed, h, l as hSlot, r as ref, m as isRuntimeSsrPreHydration, o as onMounted, n as onBeforeUnmount, p as noop, q as nextTick, g as getCurrentInstance, s as listenOpts, i as inject, t as emptyRenderFn, u as layoutKey, w as watch, v as hUniqueSlot, x as createDirective, y as client, z as leftClick, A as addEvt, B as preventDraggable, C as prevent, D as stop, E as position, G as cleanEvt, H as stopAndPrevent, I as withDirectives, J as hDir, K as provide, L as pageContainerKey, M as reactive, a as onUnmounted, N as hMergeSlot, O as useRouterLinkProps, P as useRouterLink, Q as isKeyCode, d as defineComponent, R as resolveComponent, S as openBlock, U as createBlock, V as withCtx, f as createVNode, W as QIcon, X as createCommentVNode, Y as createTextVNode, Z as toDisplayString, _ as createElementBlock, $ as pushScopeId, a0 as popScopeId, a1 as createBaseVNode, a2 as postStore, a3 as QBtn, a4 as renderList, F as Fragment, a5 as mergeProps } from "./index.5a9e3cd6.js";
+import { u as useDarkProps, a as useDark } from "./use-dark.d1aa3fe4.js";
+import { u as useModelToggleProps, a as useModelToggleEmits, b as useTimeout, c as useModelToggle, d as useHistory, e as usePreventScroll, g as getScrollTarget, f as getVerticalScrollPosition, h as getHorizontalScrollPosition, i as getScrollbarWidth } from "./use-timeout.6540e93b.js";
+import { g as getModifierDirections, s as shouldStart, c as clearSelection } from "./selection.465d1481.js";
 import { b as between } from "./format.801e7424.js";
 import { _ as _export_sfc } from "./plugin-vue_export-helper.21dcd24c.js";
 var QToolbarTitle = createComponent({
@@ -329,58 +330,6 @@ var QList = createComponent({
     return () => h(props.tag, { class: classes.value }, hSlot(slots.default));
   }
 });
-const modifiersAll = {
-  left: true,
-  right: true,
-  up: true,
-  down: true,
-  horizontal: true,
-  vertical: true
-};
-const directionList = Object.keys(modifiersAll);
-modifiersAll.all = true;
-function getModifierDirections(mod) {
-  const dir = {};
-  for (const direction of directionList) {
-    if (mod[direction] === true) {
-      dir[direction] = true;
-    }
-  }
-  if (Object.keys(dir).length === 0) {
-    return modifiersAll;
-  }
-  if (dir.horizontal === true) {
-    dir.left = dir.right = true;
-  } else if (dir.left === true && dir.right === true) {
-    dir.horizontal = true;
-  }
-  if (dir.vertical === true) {
-    dir.up = dir.down = true;
-  } else if (dir.up === true && dir.down === true) {
-    dir.vertical = true;
-  }
-  if (dir.horizontal === true && dir.vertical === true) {
-    dir.all = true;
-  }
-  return dir;
-}
-const avoidNodeNamesList = ["INPUT", "TEXTAREA"];
-function shouldStart(evt, ctx) {
-  return ctx.event === void 0 && evt.target !== void 0 && evt.target.draggable !== true && typeof ctx.handler === "function" && avoidNodeNamesList.includes(evt.target.nodeName.toUpperCase()) === false && (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1);
-}
-function clearSelection() {
-  if (window.getSelection !== void 0) {
-    const selection = window.getSelection();
-    if (selection.empty !== void 0) {
-      selection.empty();
-    } else if (selection.removeAllRanges !== void 0) {
-      selection.removeAllRanges();
-      Platform.is.mobile !== true && selection.addRange(document.createRange());
-    }
-  } else if (document.selection !== void 0) {
-    document.selection.empty();
-  }
-}
 function getChanges(evt, ctx, isFinal) {
   const pos = position(evt);
   let dir, distX = pos.left - ctx.event.x, distY = pos.top - ctx.event.y, absX = Math.abs(distX), absY = Math.abs(distY);

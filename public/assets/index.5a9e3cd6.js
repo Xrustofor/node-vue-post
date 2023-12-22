@@ -62,6 +62,7 @@ const hasOwn = (val, key) => hasOwnProperty$2.call(val, key);
 const isArray$2 = Array.isArray;
 const isMap = (val) => toTypeString(val) === "[object Map]";
 const isSet = (val) => toTypeString(val) === "[object Set]";
+const isRegExp$1 = (val) => toTypeString(val) === "[object RegExp]";
 const isFunction$1 = (val) => typeof val === "function";
 const isString$1 = (val) => typeof val === "string";
 const isSymbol = (val) => typeof val === "symbol";
@@ -2283,6 +2284,191 @@ function defineComponent(options, extraOptions) {
 }
 const isAsyncWrapper = (i) => !!i.type.__asyncLoader;
 const isKeepAlive = (vnode) => vnode.type.__isKeepAlive;
+const KeepAliveImpl = {
+  name: `KeepAlive`,
+  __isKeepAlive: true,
+  props: {
+    include: [String, RegExp, Array],
+    exclude: [String, RegExp, Array],
+    max: [String, Number]
+  },
+  setup(props, { slots }) {
+    const instance = getCurrentInstance();
+    const sharedContext = instance.ctx;
+    if (!sharedContext.renderer) {
+      return () => {
+        const children = slots.default && slots.default();
+        return children && children.length === 1 ? children[0] : children;
+      };
+    }
+    const cache = /* @__PURE__ */ new Map();
+    const keys = /* @__PURE__ */ new Set();
+    let current = null;
+    const parentSuspense = instance.suspense;
+    const {
+      renderer: {
+        p: patch,
+        m: move,
+        um: _unmount,
+        o: { createElement }
+      }
+    } = sharedContext;
+    const storageContainer = createElement("div");
+    sharedContext.activate = (vnode, container, anchor, isSVG, optimized) => {
+      const instance2 = vnode.component;
+      move(vnode, container, anchor, 0, parentSuspense);
+      patch(
+        instance2.vnode,
+        vnode,
+        container,
+        anchor,
+        instance2,
+        parentSuspense,
+        isSVG,
+        vnode.slotScopeIds,
+        optimized
+      );
+      queuePostRenderEffect(() => {
+        instance2.isDeactivated = false;
+        if (instance2.a) {
+          invokeArrayFns(instance2.a);
+        }
+        const vnodeHook = vnode.props && vnode.props.onVnodeMounted;
+        if (vnodeHook) {
+          invokeVNodeHook(vnodeHook, instance2.parent, vnode);
+        }
+      }, parentSuspense);
+    };
+    sharedContext.deactivate = (vnode) => {
+      const instance2 = vnode.component;
+      move(vnode, storageContainer, null, 1, parentSuspense);
+      queuePostRenderEffect(() => {
+        if (instance2.da) {
+          invokeArrayFns(instance2.da);
+        }
+        const vnodeHook = vnode.props && vnode.props.onVnodeUnmounted;
+        if (vnodeHook) {
+          invokeVNodeHook(vnodeHook, instance2.parent, vnode);
+        }
+        instance2.isDeactivated = true;
+      }, parentSuspense);
+    };
+    function unmount(vnode) {
+      resetShapeFlag(vnode);
+      _unmount(vnode, instance, parentSuspense, true);
+    }
+    function pruneCache(filter2) {
+      cache.forEach((vnode, key) => {
+        const name = getComponentName(vnode.type);
+        if (name && (!filter2 || !filter2(name))) {
+          pruneCacheEntry(key);
+        }
+      });
+    }
+    function pruneCacheEntry(key) {
+      const cached = cache.get(key);
+      if (!current || !isSameVNodeType(cached, current)) {
+        unmount(cached);
+      } else if (current) {
+        resetShapeFlag(current);
+      }
+      cache.delete(key);
+      keys.delete(key);
+    }
+    watch(
+      () => [props.include, props.exclude],
+      ([include, exclude]) => {
+        include && pruneCache((name) => matches(include, name));
+        exclude && pruneCache((name) => !matches(exclude, name));
+      },
+      { flush: "post", deep: true }
+    );
+    let pendingCacheKey = null;
+    const cacheSubtree = () => {
+      if (pendingCacheKey != null) {
+        cache.set(pendingCacheKey, getInnerChild(instance.subTree));
+      }
+    };
+    onMounted(cacheSubtree);
+    onUpdated(cacheSubtree);
+    onBeforeUnmount(() => {
+      cache.forEach((cached) => {
+        const { subTree, suspense } = instance;
+        const vnode = getInnerChild(subTree);
+        if (cached.type === vnode.type && cached.key === vnode.key) {
+          resetShapeFlag(vnode);
+          const da = vnode.component.da;
+          da && queuePostRenderEffect(da, suspense);
+          return;
+        }
+        unmount(cached);
+      });
+    });
+    return () => {
+      pendingCacheKey = null;
+      if (!slots.default) {
+        return null;
+      }
+      const children = slots.default();
+      const rawVNode = children[0];
+      if (children.length > 1) {
+        current = null;
+        return children;
+      } else if (!isVNode(rawVNode) || !(rawVNode.shapeFlag & 4) && !(rawVNode.shapeFlag & 128)) {
+        current = null;
+        return rawVNode;
+      }
+      let vnode = getInnerChild(rawVNode);
+      const comp = vnode.type;
+      const name = getComponentName(
+        isAsyncWrapper(vnode) ? vnode.type.__asyncResolved || {} : comp
+      );
+      const { include, exclude, max } = props;
+      if (include && (!name || !matches(include, name)) || exclude && name && matches(exclude, name)) {
+        current = vnode;
+        return rawVNode;
+      }
+      const key = vnode.key == null ? comp : vnode.key;
+      const cachedVNode = cache.get(key);
+      if (vnode.el) {
+        vnode = cloneVNode(vnode);
+        if (rawVNode.shapeFlag & 128) {
+          rawVNode.ssContent = vnode;
+        }
+      }
+      pendingCacheKey = key;
+      if (cachedVNode) {
+        vnode.el = cachedVNode.el;
+        vnode.component = cachedVNode.component;
+        if (vnode.transition) {
+          setTransitionHooks(vnode, vnode.transition);
+        }
+        vnode.shapeFlag |= 512;
+        keys.delete(key);
+        keys.add(key);
+      } else {
+        keys.add(key);
+        if (max && keys.size > parseInt(max, 10)) {
+          pruneCacheEntry(keys.values().next().value);
+        }
+      }
+      vnode.shapeFlag |= 256;
+      current = vnode;
+      return isSuspense(rawVNode.type) ? rawVNode : vnode;
+    };
+  }
+};
+const KeepAlive = KeepAliveImpl;
+function matches(pattern, name) {
+  if (isArray$2(pattern)) {
+    return pattern.some((p2) => matches(p2, name));
+  } else if (isString$1(pattern)) {
+    return pattern.split(",").includes(name);
+  } else if (isRegExp$1(pattern)) {
+    return pattern.test(name);
+  }
+  return false;
+}
 function onActivated(hook, target2) {
   registerKeepAliveHook(hook, "a", target2);
 }
@@ -2321,6 +2507,13 @@ function injectToKeepAliveRoot(hook, type, target2, keepAliveRoot) {
   onUnmounted(() => {
     remove(keepAliveRoot[type], injected);
   }, target2);
+}
+function resetShapeFlag(vnode) {
+  vnode.shapeFlag &= ~256;
+  vnode.shapeFlag &= ~512;
+}
+function getInnerChild(vnode) {
+  return vnode.shapeFlag & 128 ? vnode.ssContent : vnode;
 }
 function injectHook(type, hook, target2 = currentInstance, prepend = false) {
   if (target2) {
@@ -5903,6 +6096,44 @@ function patchClass(el, value, isSVG) {
   }
 }
 const vShowOldKey = Symbol("_vod");
+const vShow = {
+  beforeMount(el, { value }, { transition }) {
+    el[vShowOldKey] = el.style.display === "none" ? "" : el.style.display;
+    if (transition && value) {
+      transition.beforeEnter(el);
+    } else {
+      setDisplay(el, value);
+    }
+  },
+  mounted(el, { value }, { transition }) {
+    if (transition && value) {
+      transition.enter(el);
+    }
+  },
+  updated(el, { value, oldValue }, { transition }) {
+    if (!value === !oldValue)
+      return;
+    if (transition) {
+      if (value) {
+        transition.beforeEnter(el);
+        setDisplay(el, true);
+        transition.enter(el);
+      } else {
+        transition.leave(el, () => {
+          setDisplay(el, false);
+        });
+      }
+    } else {
+      setDisplay(el, value);
+    }
+  },
+  beforeUnmount(el, { value }) {
+    setDisplay(el, value);
+  }
+};
+function setDisplay(el, value) {
+  el.style.display = value ? el[vShowOldKey] : "none";
+}
 function patchStyle(el, prev, next) {
   const style = el.style;
   const isCssString = isString$1(next);
@@ -7342,6 +7573,9 @@ function freezeGlobalConfig() {
 function isObject$1(v) {
   return v !== null && typeof v === "object" && Array.isArray(v) !== true;
 }
+function isNumber$1(v) {
+  return typeof v === "number" && isFinite(v);
+}
 const autoInstalledPlugins = [
   Platform,
   Body,
@@ -7961,10 +8195,10 @@ const forEachEntry = (obj, fn) => {
   }
 };
 const matchAll = (regExp, str) => {
-  let matches;
+  let matches2;
   const arr = [];
-  while ((matches = regExp.exec(str)) !== null) {
-    arr.push(matches);
+  while ((matches2 = regExp.exec(str)) !== null) {
+    arr.push(matches2);
   }
   return arr;
 };
@@ -9694,7 +9928,11 @@ axios$2.HttpStatusCode = HttpStatusCode$1;
 axios$2.default = axios$2;
 var axios$3 = axios$2;
 const baseURL = "https://promo-qag1.onrender.com/api";
-const api = axios$3.create({ baseURL });
+const api = axios$3.create({
+  baseURL,
+  timeout: 1e3,
+  headers: { "Content-Type": "multipart/form-data" }
+});
 api.interceptors.request.use(function(config) {
   const store2 = postStore();
   store2.setLoading(true);
@@ -9737,48 +9975,71 @@ var axios$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePropert
 }, Symbol.toStringTag, { value: "Module" }));
 const postStore = defineStore("counter", {
   state: () => ({
-    posts: [],
+    products: [],
     meta: null,
-    post: null,
+    product: null,
     errors: null,
     message: null,
-    loading: false
+    loading: false,
+    deleteImages: []
   }),
   getters: {
-    getPosts: (state) => state.posts,
+    getPosts: (state) => state.products,
     getMeta: (state) => state.meta,
-    getPost: (state) => state.post,
+    getProduct: (state) => state.product,
     getErrors: (state) => state.errors,
     getMessage: (state) => state.message,
-    getLoading: (state) => state.loading
+    getLoading: (state) => state.loading,
+    getDeleteImages: (state) => state.deleteImages
   },
   actions: {
-    async apiGetPosts(page) {
+    async apiGetProducts(page) {
       this.meta = null;
       try {
-        const posts = await api.get("/", { params: { page: page || 1 } });
-        this.posts = posts.items;
-        this.meta = posts.meta;
+        const products = await api.get("/", { params: { page: page || 1 } });
+        this.products = products.items;
+        this.meta = products.meta;
       } catch (e) {
         console.log(e.message);
       }
     },
-    async apiCreatePost(payload) {
+    async apiCreateProduct(payload) {
+      const { title, description, price, images } = payload;
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("price", price);
+      images.forEach((file) => {
+        formData.append("image", file.file, file.name);
+      });
       this.message = null;
       this.errors = null;
       try {
-        const result = await api.post("/post", payload);
+        const result = await api.post("/post", formData);
         if (result.id) {
           this.message = "\u041F\u043E\u0441\u0442 \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u0434\u043E\u0434\u0430\u043D\u0438\u0439!";
         }
-        return !!result.id;
+        return result;
       } catch (e) {
         console.log(e);
       }
     },
-    async apiUpdateByPost(data, id) {
+    async apiUpdateByProduct(payload, id) {
+      const { title, description, price, images } = payload;
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("price", price);
+      images.forEach((image) => {
+        if (Object.keys(image.file).length) {
+          formData.append("image", image.file, image.filename);
+        }
+      });
+      this.deleteImages.forEach((id2) => {
+        formData.append("remove", id2);
+      });
       try {
-        const result = await api.put(`/post/${id}`, data);
+        const result = await api.put(`/post/${id}`, formData);
         if (result.id) {
           this.message = "\u041F\u043E\u0441\u0442 \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043E\u043D\u043E\u0432\u043B\u0435\u043D\u043E!";
         }
@@ -9787,22 +10048,22 @@ const postStore = defineStore("counter", {
         console.log(e);
       }
     },
-    async apiGetByPost(id) {
+    async apiGetByProducts(id) {
       try {
-        this.post = await api.get(`/post/${id}`);
-        return this.post;
+        this.product = await api.get(`/post/${id}`);
+        return this.product;
       } catch (e) {
         console.log(e);
       }
     },
-    async apiDeleteByPost(id) {
+    async apiDeleteByProduct(id) {
       this.message = null;
       try {
         const result = await api.delete(`/post/${id}`);
         if (result.id) {
           this.message = "\u041F\u043E\u0441\u0442 \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u0412\u0438\u0434\u0430\u043B\u0435\u043D\u043D\u0438\u0439!";
         }
-        return !!result.id;
+        return result;
       } catch (e) {
         console.log(e);
       }
@@ -9812,6 +10073,19 @@ const postStore = defineStore("counter", {
     },
     setErrors(errors) {
       this.errors = errors;
+    },
+    setImageRemove(id) {
+      if (!this.product)
+        return;
+      if (!Array.isArray(this.product.images))
+        return;
+      const candidate = this.product.images.find((item) => item.id === id);
+      if (!candidate)
+        return;
+      this.deleteImages.push(id);
+    },
+    resetImageRemove() {
+      this.deleteImages = [];
     }
   }
 });
@@ -11536,29 +11810,29 @@ const routes = [
   {
     path: "/",
     meta: { title: "\u0413\u043E\u043B\u043E\u0432\u043D\u043A\u0430" },
-    component: () => __vitePreload(() => import("./MainLayout.a3c4bf80.js"), true ? ["assets/MainLayout.a3c4bf80.js","assets/MainLayout.1ebc9e7e.css","assets/use-dark.f61784c2.js","assets/use-timeout.1f42a1fb.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
+    component: () => __vitePreload(() => import("./MainLayout.2328b5a3.js"), true ? ["assets/MainLayout.2328b5a3.js","assets/MainLayout.1ebc9e7e.css","assets/use-dark.d1aa3fe4.js","assets/use-timeout.6540e93b.js","assets/selection.465d1481.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
     children: [
-      { path: "", component: () => __vitePreload(() => import("./HomePage.29df4242.js"), true ? ["assets/HomePage.29df4242.js","assets/QInput.48692ae7.js","assets/use-dark.f61784c2.js","assets/QCard.5725e9d7.js","assets/format.801e7424.js","assets/AppCard.f184151f.js","assets/AppCard.25364ead.css","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
+      { path: "", component: () => __vitePreload(() => import("./HomePage.e45158dc.js"), true ? ["assets/HomePage.e45158dc.js","assets/QInput.e1d4a75d.js","assets/use-dark.d1aa3fe4.js","assets/QCard.3063142f.js","assets/format.801e7424.js","assets/AppCard.aa9e347f.js","assets/AppCard.7cdd9f92.css","assets/selection.465d1481.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
       {
         path: "/post/create",
         meta: { title: "\u0421\u0432\u043E\u0440\u0438\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443" },
-        component: () => __vitePreload(() => import("./CreateUpdatePage.f81602ed.js"), true ? ["assets/CreateUpdatePage.f81602ed.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.48692ae7.js","assets/use-dark.f61784c2.js","assets/QCard.5725e9d7.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CreateUpdatePage.abd3979b.js"), true ? ["assets/CreateUpdatePage.abd3979b.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.e1d4a75d.js","assets/use-dark.d1aa3fe4.js","assets/QCard.3063142f.js","assets/ClosePopup.8f0fb246.js","assets/use-timeout.6540e93b.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       },
       {
         path: "/post/:idCard",
         meta: { title: "\u041A\u0430\u0440\u0442\u043A\u0430" },
-        component: () => __vitePreload(() => import("./CardPage.f846e3b6.js"), true ? ["assets/CardPage.f846e3b6.js","assets/AppCard.f184151f.js","assets/AppCard.25364ead.css","assets/QCard.5725e9d7.js","assets/use-dark.f61784c2.js","assets/plugin-vue_export-helper.21dcd24c.js","assets/use-timeout.1f42a1fb.js"] : void 0)
+        component: () => __vitePreload(() => import("./CardPage.ca183692.js"), true ? ["assets/CardPage.ca183692.js","assets/QCard.3063142f.js","assets/use-dark.d1aa3fe4.js","assets/ClosePopup.8f0fb246.js","assets/use-timeout.6540e93b.js","assets/AppCard.aa9e347f.js","assets/AppCard.7cdd9f92.css","assets/selection.465d1481.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       },
       {
         path: "/post/:idCard/update",
         meta: { title: "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443" },
-        component: () => __vitePreload(() => import("./CreateUpdatePage.f81602ed.js"), true ? ["assets/CreateUpdatePage.f81602ed.js","assets/CreateUpdatePage.6df132a6.css","assets/QInput.48692ae7.js","assets/use-dark.f61784c2.js","assets/QCard.5725e9d7.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CreateUpdatePage.abd3979b.js"), true ? ["assets/CreateUpdatePage.abd3979b.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.e1d4a75d.js","assets/use-dark.d1aa3fe4.js","assets/QCard.3063142f.js","assets/ClosePopup.8f0fb246.js","assets/use-timeout.6540e93b.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       }
     ]
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => __vitePreload(() => import("./ErrorNotFound.45be2960.js"), true ? ["assets/ErrorNotFound.45be2960.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+    component: () => __vitePreload(() => import("./ErrorNotFound.224d910e.js"), true ? ["assets/ErrorNotFound.224d910e.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
   }
 ];
 var createRouter = route(function() {
@@ -11732,27 +12006,27 @@ var QIcon = createComponent({
         };
       }
       let content = " ";
-      const matches = icon.match(libRE);
-      if (matches !== null) {
-        cls = libMap[matches[1]](icon);
+      const matches2 = icon.match(libRE);
+      if (matches2 !== null) {
+        cls = libMap[matches2[1]](icon);
       } else if (faRE.test(icon) === true) {
         cls = icon;
       } else if (ionRE.test(icon) === true) {
         cls = `ionicons ion-${$q.platform.is.ios === true ? "ios" : "md"}${icon.substring(3)}`;
       } else if (symRE.test(icon) === true) {
         cls = "notranslate material-symbols";
-        const matches2 = icon.match(symRE);
-        if (matches2 !== null) {
+        const matches3 = icon.match(symRE);
+        if (matches3 !== null) {
           icon = icon.substring(6);
-          cls += symMap[matches2[1]];
+          cls += symMap[matches3[1]];
         }
         content = icon;
       } else {
         cls = "notranslate material-icons";
-        const matches2 = icon.match(matRE);
-        if (matches2 !== null) {
+        const matches3 = icon.match(matRE);
+        if (matches3 !== null) {
           icon = icon.substring(2);
-          cls += matMap[matches2[1]];
+          cls += matMap[matches3[1]];
         }
         content = icon;
       }
@@ -12059,6 +12333,24 @@ function getParentProxy(proxy) {
     }
     parent = parent.parent;
   }
+}
+function fillNormalizedVNodes(children, vnode) {
+  if (typeof vnode.type === "symbol") {
+    if (Array.isArray(vnode.children) === true) {
+      vnode.children.forEach((child) => {
+        fillNormalizedVNodes(children, child);
+      });
+    }
+  } else {
+    children.add(vnode);
+  }
+}
+function getNormalizedVNodes(vnodes) {
+  const children = /* @__PURE__ */ new Set();
+  vnodes.forEach((vnode) => {
+    fillNormalizedVNodes(children, vnode);
+  });
+  return Array.from(children);
 }
 function vmHasRouter(vm) {
   return vm.appContext.config.globalProperties.$router !== void 0;
@@ -13076,7 +13368,6 @@ async function start({
     const href = getRedirectUrl(url);
     if (href !== null) {
       window.location.href = href;
-      window.location.reload();
     }
   };
   const urlPath = window.location.href.replace(window.location.origin, "");
@@ -13121,7 +13412,7 @@ createQuasarApp(createApp, quasarUserOptions).then((app2) => {
     (bootFiles) => bootFiles.map((entry) => entry.default)
   ];
   return Promise[method]([
-    __vitePreload(() => import("./i18n.69b5dcf6.js"), true ? [] : void 0),
+    __vitePreload(() => import("./i18n.ae49d33e.js"), true ? [] : void 0),
     __vitePreload(() => Promise.resolve().then(function() {
       return axios$1;
     }), true ? void 0 : void 0)
@@ -13130,4 +13421,4 @@ createQuasarApp(createApp, quasarUserOptions).then((app2) => {
     start(app2, boot2);
   });
 });
-export { createElementBlock as $, addEvt as A, preventDraggable as B, prevent as C, stop as D, position as E, Fragment as F, cleanEvt as G, stopAndPrevent as H, withDirectives as I, hDir as J, provide as K, pageContainerKey as L, reactive as M, hMergeSlot as N, useRouterLinkProps as O, Platform as P, useRouterLink as Q, isKeyCode as R, resolveComponent as S, Text as T, openBlock as U, createBlock as V, withCtx as W, QIcon as X, createCommentVNode as Y, createTextVNode as Z, toDisplayString as _, onUnmounted as a, pushScopeId as a0, popScopeId as a1, createBaseVNode as a2, postStore as a3, QBtn as a4, renderList as a5, mergeProps as a6, History as a7, vmHasRouter as a8, css as a9, childHasFocus as aA, getElement as aa, getEventPath as ab, onDeactivated as ac, vmIsDestroyed as ad, btnDesignOptions as ae, btnPadding as af, getBtnDesign as ag, useRoute as ah, useRouter as ai, useAlignProps as aj, useAlign as ak, Transition as al, QSpinner as am, renderSlot as an, formKey as ao, debounce as ap, injectProp as aq, onBeforeUpdate as ar, onActivated as as, shouldIgnoreKey as at, useQuasar as au, withModifiers as av, getParentProxy as aw, Teleport as ax, createGlobalNode as ay, removeGlobalNode as az, isRef as b, computed as c, defineComponent as d, effectScope as e, createVNode as f, getCurrentInstance as g, h, inject as i, boot as j, createComponent as k, hSlot as l, isRuntimeSsrPreHydration as m, onBeforeUnmount as n, onMounted as o, noop$3 as p, nextTick as q, ref as r, listenOpts as s, emptyRenderFn as t, layoutKey as u, hUniqueSlot as v, watch as w, createDirective as x, client as y, leftClick as z };
+export { pushScopeId as $, addEvt as A, preventDraggable as B, prevent as C, stop as D, position as E, Fragment as F, cleanEvt as G, stopAndPrevent as H, withDirectives as I, hDir as J, provide as K, pageContainerKey as L, reactive as M, hMergeSlot as N, useRouterLinkProps as O, useRouterLink as P, isKeyCode as Q, resolveComponent as R, openBlock as S, Text as T, createBlock as U, withCtx as V, QIcon as W, createCommentVNode as X, createTextVNode as Y, toDisplayString as Z, createElementBlock as _, onUnmounted as a, popScopeId as a0, createBaseVNode as a1, postStore as a2, QBtn as a3, renderList as a4, mergeProps as a5, History as a6, vmHasRouter as a7, css as a8, getElement as a9, normalizeClass as aA, withModifiers as aB, getParentProxy as aC, Teleport as aD, createGlobalNode as aE, removeGlobalNode as aF, childHasFocus as aG, getEventPath as aa, onDeactivated as ab, vmIsDestroyed as ac, Platform as ad, btnDesignOptions as ae, btnPadding as af, getBtnDesign as ag, useRoute as ah, useRouter as ai, useAlignProps as aj, useAlign as ak, Transition as al, getNormalizedVNodes as am, KeepAlive as an, onBeforeMount as ao, isNumber$1 as ap, renderSlot as aq, formKey as ar, debounce as as, injectProp as at, onBeforeUpdate as au, onActivated as av, QSpinner as aw, shouldIgnoreKey as ax, useQuasar as ay, vShow as az, isRef as b, computed as c, defineComponent as d, effectScope as e, createVNode as f, getCurrentInstance as g, h, inject as i, boot as j, createComponent as k, hSlot as l, isRuntimeSsrPreHydration as m, onBeforeUnmount as n, onMounted as o, noop$3 as p, nextTick as q, ref as r, listenOpts as s, emptyRenderFn as t, layoutKey as u, hUniqueSlot as v, watch as w, createDirective as x, client as y, leftClick as z };

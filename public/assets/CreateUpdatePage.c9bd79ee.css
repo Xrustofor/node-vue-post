@@ -1,0 +1,117 @@
+.component[data-v-123e5da1] {
+  display: flex;
+  flex: 1;
+}
+.chous[data-v-123e5da1] {
+  flex: 1;
+  border-radius: 4px;
+  text-align: center;
+  position: relative;
+  height: 250px;
+  min-width: 200px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 14px/50px Tahoma;
+  font-size: 34px;
+  transition: all 0.18s ease-in-out;
+  background: linear-gradient(to top right, #1976d2, #8dbbe8 20%, rgba(25, 118, 210, 0) 80%, rgba(141, 187, 232, 0)) top right/500% 500%;
+  color: #1976d2;
+}
+.image[data-v-123e5da1] {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.top[data-v-123e5da1] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #fff;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 25%, rgb(0, 0, 0) 100%);
+}
+.chous[data-v-123e5da1]:hover {
+  color: white;
+  background-position: bottom left;
+}
+.input[data-v-123e5da1] {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.error[data-v-123e5da1] {
+  box-shadow: 0px 0px 10px red;
+  animation: blink-123e5da1 1.3s infinite;
+}
+@keyframes blink-123e5da1 {
+0% {
+    box-shadow: none;
+}
+30% {
+    box-shadow: 0px 0px 10px red;
+}
+70% {
+    box-shadow: 0px 0px 10px red;
+}
+100% {
+    box-shadow: none;
+}
+}.page[data-v-c9da4532] {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+.images_block .image_component[data-v-c9da4532] {
+  margin: 8px;
+}
+.add_button_wrap[data-v-c9da4532] {
+  min-height: 215px;
+  padding: 7px;
+  display: flex;
+  flex: 1;
+}
+.add_button_wrap .add_button[data-v-c9da4532] {
+  display: flex;
+  flex: 1;
+  border: 1px dashed #ccc;
+}
+.add_button_wrap .add_button .icon[data-v-c9da4532] {
+  display: flex;
+  flex: 1;
+  color: #ccc;
+  height: 100%;
+  font-size: 40px;
+}
+.error[data-v-c9da4532] {
+  box-shadow: 0px 0px 10px red;
+  animation: blink-c9da4532 1.3s infinite;
+}
+@keyframes blink-c9da4532 {
+0% {
+    box-shadow: none;
+}
+30% {
+    box-shadow: 0px 0px 10px red;
+}
+70% {
+    box-shadow: 0px 0px 10px red;
+}
+100% {
+    box-shadow: none;
+}
+}

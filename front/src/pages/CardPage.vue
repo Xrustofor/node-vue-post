@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center column">
+  <q-page class="flex flex-center">
     <app-card :item="item">
       <template #actions>
         <router-link :to="`/post/${item.id}/update`">
@@ -46,16 +46,16 @@ const store = postStore();
 const route = useRoute();
 const router = useRouter();
 const { idCard } = route.params;
-const item = computed(() => store.getPost);
+const item = computed(() => store.getProduct);
 const dialog = ref(false);
 
 onMounted(async () => {
-  await store.apiGetByPost(idCard);
+  await store.apiGetByProducts(idCard);
 });
 
 const remove = async () => {
-  const result = await store.apiDeleteByPost(idCard);
-  if (result) {
+  const result = await store.apiDeleteByProduct(idCard);
+  if (result.success) {
     router.push("/");
   }
 };

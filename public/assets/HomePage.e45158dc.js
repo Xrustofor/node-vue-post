@@ -1,9 +1,10 @@
-import { h, k as createComponent, ae as btnDesignOptions, c as computed, r as ref, w as watch, g as getCurrentInstance, af as btnPadding, ag as getBtnDesign, R as isKeyCode, a4 as QBtn, a3 as postStore, ah as useRoute, ai as useRouter, o as onMounted, S as resolveComponent, U as openBlock, V as createBlock, W as withCtx, $ as createElementBlock, a5 as renderList, F as Fragment, Y as createCommentVNode, f as createVNode } from "./index.892b4ed7.js";
-import { Q as QInput } from "./QInput.48692ae7.js";
-import { u as useDarkProps, a as useDark } from "./use-dark.f61784c2.js";
+import { h, k as createComponent, ae as btnDesignOptions, c as computed, r as ref, w as watch, g as getCurrentInstance, af as btnPadding, ag as getBtnDesign, Q as isKeyCode, a3 as QBtn, a2 as postStore, ah as useRoute, ai as useRouter, o as onMounted, R as resolveComponent, S as openBlock, U as createBlock, V as withCtx, _ as createElementBlock, a4 as renderList, F as Fragment, X as createCommentVNode, f as createVNode } from "./index.5a9e3cd6.js";
+import { Q as QInput } from "./QInput.e1d4a75d.js";
+import { u as useDarkProps, a as useDark } from "./use-dark.d1aa3fe4.js";
 import { b as between } from "./format.801e7424.js";
-import { Q as QPage } from "./QCard.5725e9d7.js";
-import { A as AppCard } from "./AppCard.f184151f.js";
+import { Q as QPage } from "./QCard.3063142f.js";
+import { A as AppCard } from "./AppCard.aa9e347f.js";
+import "./selection.465d1481.js";
 import "./plugin-vue_export-helper.21dcd24c.js";
 const space = h("div", { class: "q-space" });
 var QSpace = createComponent({
@@ -398,14 +399,14 @@ const _sfc_main = {
     });
     const items = computed(() => store.getPosts);
     const getPosts = async () => {
-      await store.apiGetPosts(+route.query.page || 1);
+      await store.apiGetProducts(+route.query.page || 1);
     };
     const setQueryPage = async (page2) => {
       await router.push({ query: { page: page2 } });
     };
     return (_ctx, _cache) => {
       const _component_router_link = resolveComponent("router-link");
-      return openBlock(), createBlock(QPage, { class: "flex flex-center column" }, {
+      return openBlock(), createBlock(QPage, { class: "flex flex-center column q-pb-lg" }, {
         default: withCtx(() => [
           (openBlock(true), createElementBlock(Fragment, null, renderList(items.value, (item) => {
             return openBlock(), createBlock(AppCard, {

@@ -1,5 +1,5 @@
-import { k as createComponent, i as inject, t as emptyRenderFn, u as layoutKey, L as pageContainerKey, c as computed, h, l as hSlot, g as getCurrentInstance, aj as useAlignProps, ak as useAlign } from "./index.892b4ed7.js";
-import { u as useDarkProps, a as useDark } from "./use-dark.f61784c2.js";
+import { k as createComponent, i as inject, t as emptyRenderFn, u as layoutKey, L as pageContainerKey, c as computed, h, l as hSlot, g as getCurrentInstance, aj as useAlignProps, ak as useAlign } from "./index.5a9e3cd6.js";
+import { u as useDarkProps, a as useDark } from "./use-dark.d1aa3fe4.js";
 let queue = [];
 let waitFlags = [];
 function clearFlag(flag) {
@@ -63,6 +63,22 @@ var QPage = createComponent({
     }, hSlot(slots.default));
   }
 });
+var QCardSection = createComponent({
+  name: "QCardSection",
+  props: {
+    tag: {
+      type: String,
+      default: "div"
+    },
+    horizontal: Boolean
+  },
+  setup(props, { slots }) {
+    const classes = computed(
+      () => `q-card__section q-card__section--${props.horizontal === true ? "horiz row no-wrap" : "vert"}`
+    );
+    return () => h(props.tag, { class: classes.value }, hSlot(slots.default));
+  }
+});
 var QCardActions = createComponent({
   name: "QCardActions",
   props: {
@@ -98,4 +114,4 @@ var QCard = createComponent({
     return () => h(props.tag, { class: classes.value }, hSlot(slots.default));
   }
 });
-export { QPage as Q, QCardActions as a, QCard as b, addFocusFn as c, removeFocusWaitFlag as d, addFocusWaitFlag as e, removeFocusFn as r };
+export { QPage as Q, QCardSection as a, QCardActions as b, QCard as c, addFocusFn as d, removeFocusWaitFlag as e, addFocusWaitFlag as f, removeFocusFn as r };
