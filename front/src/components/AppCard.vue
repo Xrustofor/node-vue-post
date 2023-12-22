@@ -6,7 +6,7 @@
         v-for="(img, index) of item.images"
         :key="`img-${img.name}`"
         :name="index + 1"
-        :img-src="`${img.url}`"
+        :img-src="img.url"
       ></q-carousel-slide>
     </q-carousel>
     <q-card-section>

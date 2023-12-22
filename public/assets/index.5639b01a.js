@@ -11810,29 +11810,29 @@ const routes = [
   {
     path: "/",
     meta: { title: "\u0413\u043E\u043B\u043E\u0432\u043D\u043A\u0430" },
-    component: () => __vitePreload(() => import("./MainLayout.2328b5a3.js"), true ? ["assets/MainLayout.2328b5a3.js","assets/MainLayout.1ebc9e7e.css","assets/use-dark.d1aa3fe4.js","assets/use-timeout.6540e93b.js","assets/selection.465d1481.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
+    component: () => __vitePreload(() => import("./MainLayout.ffba746f.js"), true ? ["assets/MainLayout.ffba746f.js","assets/MainLayout.1ebc9e7e.css","assets/use-dark.1ba393d1.js","assets/use-timeout.1cdabcc9.js","assets/selection.209d231d.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
     children: [
-      { path: "", component: () => __vitePreload(() => import("./HomePage.e45158dc.js"), true ? ["assets/HomePage.e45158dc.js","assets/QInput.e1d4a75d.js","assets/use-dark.d1aa3fe4.js","assets/QCard.3063142f.js","assets/format.801e7424.js","assets/AppCard.aa9e347f.js","assets/AppCard.7cdd9f92.css","assets/selection.465d1481.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
+      { path: "", component: () => __vitePreload(() => import("./HomePage.21b233b6.js"), true ? ["assets/HomePage.21b233b6.js","assets/QInput.bdbe1044.js","assets/use-dark.1ba393d1.js","assets/QCard.ca72fca8.js","assets/format.801e7424.js","assets/AppCard.66648c2b.js","assets/AppCard.a3bad766.css","assets/selection.209d231d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
       {
         path: "/post/create",
         meta: { title: "\u0421\u0432\u043E\u0440\u0438\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443" },
-        component: () => __vitePreload(() => import("./CreateUpdatePage.abd3979b.js"), true ? ["assets/CreateUpdatePage.abd3979b.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.e1d4a75d.js","assets/use-dark.d1aa3fe4.js","assets/QCard.3063142f.js","assets/ClosePopup.8f0fb246.js","assets/use-timeout.6540e93b.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CreateUpdatePage.1f42b4e5.js"), true ? ["assets/CreateUpdatePage.1f42b4e5.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.bdbe1044.js","assets/use-dark.1ba393d1.js","assets/QCard.ca72fca8.js","assets/ClosePopup.e6b28bf3.js","assets/use-timeout.1cdabcc9.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       },
       {
         path: "/post/:idCard",
         meta: { title: "\u041A\u0430\u0440\u0442\u043A\u0430" },
-        component: () => __vitePreload(() => import("./CardPage.ca183692.js"), true ? ["assets/CardPage.ca183692.js","assets/QCard.3063142f.js","assets/use-dark.d1aa3fe4.js","assets/ClosePopup.8f0fb246.js","assets/use-timeout.6540e93b.js","assets/AppCard.aa9e347f.js","assets/AppCard.7cdd9f92.css","assets/selection.465d1481.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CardPage.42a82ba9.js"), true ? ["assets/CardPage.42a82ba9.js","assets/QCard.ca72fca8.js","assets/use-dark.1ba393d1.js","assets/ClosePopup.e6b28bf3.js","assets/use-timeout.1cdabcc9.js","assets/AppCard.66648c2b.js","assets/AppCard.a3bad766.css","assets/selection.209d231d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       },
       {
         path: "/post/:idCard/update",
         meta: { title: "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443" },
-        component: () => __vitePreload(() => import("./CreateUpdatePage.abd3979b.js"), true ? ["assets/CreateUpdatePage.abd3979b.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.e1d4a75d.js","assets/use-dark.d1aa3fe4.js","assets/QCard.3063142f.js","assets/ClosePopup.8f0fb246.js","assets/use-timeout.6540e93b.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CreateUpdatePage.1f42b4e5.js"), true ? ["assets/CreateUpdatePage.1f42b4e5.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.bdbe1044.js","assets/use-dark.1ba393d1.js","assets/QCard.ca72fca8.js","assets/ClosePopup.e6b28bf3.js","assets/use-timeout.1cdabcc9.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       }
     ]
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => __vitePreload(() => import("./ErrorNotFound.224d910e.js"), true ? ["assets/ErrorNotFound.224d910e.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+    component: () => __vitePreload(() => import("./ErrorNotFound.b0da650c.js"), true ? ["assets/ErrorNotFound.b0da650c.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
   }
 ];
 var createRouter = route(function() {
@@ -13412,7 +13412,7 @@ createQuasarApp(createApp, quasarUserOptions).then((app2) => {
     (bootFiles) => bootFiles.map((entry) => entry.default)
   ];
   return Promise[method]([
-    __vitePreload(() => import("./i18n.ae49d33e.js"), true ? [] : void 0),
+    __vitePreload(() => import("./i18n.5c6246d5.js"), true ? [] : void 0),
     __vitePreload(() => Promise.resolve().then(function() {
       return axios$1;
     }), true ? void 0 : void 0)

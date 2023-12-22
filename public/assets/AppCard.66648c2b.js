@@ -1,7 +1,7 @@
-import { x as createDirective, y as client, p as noop, z as leftClick, A as addEvt, B as preventDraggable, E as position, H as stopAndPrevent, G as cleanEvt, r as ref, c as computed, w as watch, g as getCurrentInstance, q as nextTick, h, al as Transition, am as getNormalizedVNodes, l as hSlot, an as KeepAlive, k as createComponent, a7 as vmHasRouter, ao as onBeforeMount, o as onMounted, n as onBeforeUnmount, a6 as History, J as hDir, ap as isNumber, a3 as QBtn, N as hMergeSlot, S as openBlock, U as createBlock, V as withCtx, f as createVNode, _ as createElementBlock, F as Fragment, a4 as renderList, a1 as createBaseVNode, Z as toDisplayString, Y as createTextVNode, aq as renderSlot, X as createCommentVNode } from "./index.5a9e3cd6.js";
-import { g as getModifierDirections, s as shouldStart, c as clearSelection } from "./selection.465d1481.js";
-import { u as useDarkProps, a as useDark } from "./use-dark.d1aa3fe4.js";
-import { a as QCardSection, b as QCardActions, c as QCard } from "./QCard.3063142f.js";
+import { x as createDirective, y as client, p as noop, z as leftClick, A as addEvt, B as preventDraggable, E as position, H as stopAndPrevent, G as cleanEvt, r as ref, c as computed, w as watch, g as getCurrentInstance, q as nextTick, h, al as Transition, am as getNormalizedVNodes, l as hSlot, an as KeepAlive, k as createComponent, a7 as vmHasRouter, ao as onBeforeMount, o as onMounted, n as onBeforeUnmount, a6 as History, J as hDir, ap as isNumber, a3 as QBtn, N as hMergeSlot, S as openBlock, U as createBlock, V as withCtx, f as createVNode, _ as createElementBlock, F as Fragment, a4 as renderList, a1 as createBaseVNode, Z as toDisplayString, Y as createTextVNode, aq as renderSlot, X as createCommentVNode } from "./index.5639b01a.js";
+import { g as getModifierDirections, s as shouldStart, c as clearSelection } from "./selection.209d231d.js";
+import { u as useDarkProps, a as useDark } from "./use-dark.1ba393d1.js";
+import { a as QCardSection, b as QCardActions, c as QCard } from "./QCard.ca72fca8.js";
 import { _ as _export_sfc } from "./plugin-vue_export-helper.21dcd24c.js";
 function parseArg(arg) {
   const data = [0.06, 6, 50];
@@ -729,7 +729,7 @@ const _sfc_main = {
                   position: "bottom",
                   key: `img-${img.name}`,
                   name: index + 1,
-                  "img-src": `${img.url}`
+                  "img-src": img.url
                 }, null, 8, ["name", "img-src"]);
               }), 128))
             ]),
@@ -762,5 +762,5 @@ const _sfc_main = {
     };
   }
 };
-var AppCard = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-666ea992"]]);
+var AppCard = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-192018fa"]]);
 export { AppCard as A };
