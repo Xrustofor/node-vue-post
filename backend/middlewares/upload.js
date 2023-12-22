@@ -10,6 +10,7 @@ const __dirname = dirname(__filename);
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
+    console.log("upload: url-upload", join(`${__dirname}/../../upload`));
     callback(null, join(`${__dirname}/../../upload`));
   },
   filename: (req, file, callback) => {
