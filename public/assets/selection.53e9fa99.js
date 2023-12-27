@@ -1,4 +1,4 @@
-import { ad as Platform } from "./index.5639b01a.js";
+import { ad as Platform } from "./index.3eb8dcca.js";
 const modifiersAll = {
   left: true,
   right: true,

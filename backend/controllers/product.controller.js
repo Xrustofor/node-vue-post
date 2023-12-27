@@ -14,7 +14,11 @@ import CONFIG from "../../env.config.js";
 
 class ProductController {
     async createProduct(req, res) {
+        
         const {title, description, price } = req.body;
+
+        return res.json({success: false})
+
         try{
 
             const errors = validationResult(req);

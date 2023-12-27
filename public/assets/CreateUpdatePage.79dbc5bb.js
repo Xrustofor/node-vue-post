@@ -1,10 +1,10 @@
-import { Q as QInput } from "./QInput.bdbe1044.js";
-import { c as computed, k as createComponent, r as ref, w as watch, n as onBeforeUnmount, h, al as Transition, l as hSlot, aw as QSpinner, ay as useQuasar, S as openBlock, U as createBlock, V as withCtx, a1 as createBaseVNode, f as createVNode, W as QIcon, I as withDirectives, az as vShow, Y as createTextVNode, Z as toDisplayString, aq as renderSlot, aA as normalizeClass, a2 as postStore, ah as useRoute, ai as useRouter, o as onMounted, _ as createElementBlock, a3 as QBtn, F as Fragment, a4 as renderList, X as createCommentVNode, aB as withModifiers, $ as pushScopeId, a0 as popScopeId } from "./index.5639b01a.js";
-import { c as QCard, Q as QPage, b as QCardActions, a as QCardSection } from "./QCard.ca72fca8.js";
-import { Q as QDialog, C as ClosePopup } from "./ClosePopup.e6b28bf3.js";
+import { Q as QInput } from "./QInput.761f16c6.js";
+import { c as computed, k as createComponent, r as ref, w as watch, n as onBeforeUnmount, h, al as Transition, l as hSlot, aw as QSpinner, ay as useQuasar, S as openBlock, U as createBlock, V as withCtx, a1 as createBaseVNode, f as createVNode, W as QIcon, I as withDirectives, az as vShow, Y as createTextVNode, Z as toDisplayString, aq as renderSlot, aA as normalizeClass, a2 as postStore, ah as useRoute, ai as useRouter, o as onMounted, _ as createElementBlock, a3 as QBtn, F as Fragment, a4 as renderList, X as createCommentVNode, aB as withModifiers, $ as pushScopeId, a0 as popScopeId } from "./index.3eb8dcca.js";
+import { c as QCard, Q as QPage, b as QCardActions, a as QCardSection } from "./QCard.c5055d40.js";
+import { Q as QDialog, C as ClosePopup } from "./ClosePopup.29ff04d5.js";
 import { _ as _export_sfc } from "./plugin-vue_export-helper.21dcd24c.js";
-import "./use-dark.1ba393d1.js";
-import "./use-timeout.1cdabcc9.js";
+import "./use-dark.bba63d00.js";
+import "./use-timeout.53f7577c.js";
 const useRatioProps = {
   ratio: [String, Number]
 };
@@ -273,6 +273,7 @@ const _sfc_main$1 = {
     );
     const handleFileUpload = (note, id) => {
       const file = note.target.files[0];
+      console.dir(note.target.value);
       let reader = new FileReader();
       reader.addEventListener(
         "load",
@@ -354,7 +355,7 @@ const _sfc_main$1 = {
     };
   }
 };
-var AppFilePreview = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-123e5da1"]]);
+var AppFilePreview = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-582f60a7"]]);
 var CreateUpdatePage_vue_vue_type_style_index_0_scoped_true_lang = "";
 const _withScopeId = (n) => (pushScopeId("data-v-c9da4532"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "text-h5 text-center q-pb-lg" };

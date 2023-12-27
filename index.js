@@ -1,11 +1,17 @@
 import express from "express";
 import cors from "cors";
 
+import fileupload from "express-fileupload"
+// import bodyParser from "body-parser";
+// import multer from 'multer';
+
+
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+// const upload = multer();
 
 import CONFIG from "./env.config.js";
 import db, { openConnection, closeConnection } from './backend/db.js';
@@ -18,6 +24,12 @@ const PORT = CONFIG.PORT;
 
 const app = express();
 
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(upload.array());
+
+app.use(fileupload({}))
+
 app.use(express.static('public', {
     extensions: ['htm', 'html'],
     index: false,
@@ -26,8 +38,8 @@ app.use(express.static('public', {
 app.use('/upload', express.static(join(__dirname, 'upload')));
 
 
-app.use(express.urlencoded({extended: true}))
-app.use(express.json());
+// app.use(express.urlencoded({extended: true}))
+// app.use(express.json());
 
 app.use('/api', cors(), router);
 

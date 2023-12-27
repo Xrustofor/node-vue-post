@@ -10,7 +10,9 @@ const CONFIG = {
     DB_PORT: "5432",
     PORT: "3000",
     PORT_CLIENT:'8080',
-    PATH: `http://localhost:${process.env.PORT}`
+    PATH: `http://localhost:${process.env.PORT}`,
+    CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL || '',
+    PRIMARY_KEY: process.env.GOOGLE_PRIMARY_KEY || '',
   };
   
   if (process.env.NODE_ENV === 'production') {
@@ -22,6 +24,9 @@ const CONFIG = {
     CONFIG.PORT = process.env.PORT;
     CONFIG.PORT_CLIENT = process.env.PORT_CLIENT;
     CONFIG.PATH = process.env.PATH || '.';
+    CONFIG.CLIENT_EMAIL = process.env.CLIENT_EMAIL || '';
+    CONFIG.PRIMARY_KEY = process.env.PRIMARY_KEY || '';
   }
 
   export default CONFIG;
+

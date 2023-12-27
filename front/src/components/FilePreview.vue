@@ -52,6 +52,7 @@ const image = computed(
 );
 const handleFileUpload = (note, id) => {
   const file = note.target.files[0];
+  console.dir(note.target.value);
   let reader = new FileReader();
   reader.addEventListener(
     "load",

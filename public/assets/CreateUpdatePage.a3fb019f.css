@@ -1,8 +1,8 @@
-.component[data-v-123e5da1] {
+.component[data-v-582f60a7] {
   display: flex;
   flex: 1;
 }
-.chous[data-v-123e5da1] {
+.chous[data-v-582f60a7] {
   flex: 1;
   border-radius: 4px;
   text-align: center;
@@ -20,14 +20,14 @@
   background: linear-gradient(to top right, #1976d2, #8dbbe8 20%, rgba(25, 118, 210, 0) 80%, rgba(141, 187, 232, 0)) top right/500% 500%;
   color: #1976d2;
 }
-.image[data-v-123e5da1] {
+.image[data-v-582f60a7] {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 }
-.top[data-v-123e5da1] {
+.top[data-v-582f60a7] {
   position: absolute;
   top: 0;
   left: 0;
@@ -42,11 +42,11 @@
   background: rgb(0, 0, 0);
   background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 25%, rgb(0, 0, 0) 100%);
 }
-.chous[data-v-123e5da1]:hover {
+.chous[data-v-582f60a7]:hover {
   color: white;
   background-position: bottom left;
 }
-.input[data-v-123e5da1] {
+.input[data-v-582f60a7] {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -54,11 +54,11 @@
   position: absolute;
   z-index: -1;
 }
-.error[data-v-123e5da1] {
+.error[data-v-582f60a7] {
   box-shadow: 0px 0px 10px red;
-  animation: blink-123e5da1 1.3s infinite;
+  animation: blink-582f60a7 1.3s infinite;
 }
-@keyframes blink-123e5da1 {
+@keyframes blink-582f60a7 {
 0% {
     box-shadow: none;
 }
