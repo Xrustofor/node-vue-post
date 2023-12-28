@@ -8,7 +8,7 @@ const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/
 
 const api = axios.create({
   baseURL,
-  timeout: 1000,
+  timeout: 10000,
   headers: {'Content-Type': 'multipart/form-data'}
 })
 

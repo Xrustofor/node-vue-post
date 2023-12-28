@@ -48,7 +48,7 @@ export const postStore = defineStore('counter', {
       this.errors = null;
       try{
         const result = await api.post('/post', formData);
-        if(result.id){
+        if(result.success){
           this.message = "Пост успішно доданий!"
         }
         return result

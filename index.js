@@ -1,9 +1,8 @@
 import express from "express";
 import cors from "cors";
-
-import fileupload from "express-fileupload"
+import fileupload from "express-fileupload";
+import morgan from "morgan"
 // import bodyParser from "body-parser";
-// import multer from 'multer';
 
 
 import { dirname, join } from 'path'
@@ -11,7 +10,6 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-// const upload = multer();
 
 import CONFIG from "./env.config.js";
 import db, { openConnection, closeConnection } from './backend/db.js';
@@ -26,8 +24,7 @@ const app = express();
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(upload.array());
-
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 app.use(fileupload({}))
 
 app.use(express.static('public', {
@@ -36,10 +33,6 @@ app.use(express.static('public', {
 }));
 
 app.use('/upload', express.static(join(__dirname, 'upload')));
-
-
-// app.use(express.urlencoded({extended: true}))
-// app.use(express.json());
 
 app.use('/api', cors(), router);
 

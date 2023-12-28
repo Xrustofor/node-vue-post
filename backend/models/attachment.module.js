@@ -20,7 +20,7 @@ const model = Image.init({
         onDelete: "set null",
         onUpdate: "restrict"
     },
-    filename: {
+    uuid: {
         type:  DataTypes.STRING,
     },
     size: {

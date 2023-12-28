@@ -9930,7 +9930,7 @@ var axios$3 = axios$2;
 const baseURL = "https://promo-qag1.onrender.com/api";
 const api = axios$3.create({
   baseURL,
-  timeout: 1e3,
+  timeout: 1e4,
   headers: { "Content-Type": "multipart/form-data" }
 });
 api.interceptors.request.use(function(config) {
@@ -10016,7 +10016,7 @@ const postStore = defineStore("counter", {
       this.errors = null;
       try {
         const result = await api.post("/post", formData);
-        if (result.id) {
+        if (result.success) {
           this.message = "\u041F\u043E\u0441\u0442 \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u0434\u043E\u0434\u0430\u043D\u0438\u0439!";
         }
         return result;
@@ -11810,29 +11810,29 @@ const routes = [
   {
     path: "/",
     meta: { title: "\u0413\u043E\u043B\u043E\u0432\u043D\u043A\u0430" },
-    component: () => __vitePreload(() => import("./MainLayout.192ef873.js"), true ? ["assets/MainLayout.192ef873.js","assets/MainLayout.1ebc9e7e.css","assets/use-dark.bba63d00.js","assets/use-timeout.53f7577c.js","assets/selection.53e9fa99.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
+    component: () => __vitePreload(() => import("./MainLayout.5823876c.js"), true ? ["assets/MainLayout.5823876c.js","assets/MainLayout.1ebc9e7e.css","assets/use-dark.4757ef4a.js","assets/use-timeout.7b26b41d.js","assets/selection.9464e636.js","assets/format.801e7424.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0),
     children: [
-      { path: "", component: () => __vitePreload(() => import("./HomePage.b02301ec.js"), true ? ["assets/HomePage.b02301ec.js","assets/QInput.761f16c6.js","assets/use-dark.bba63d00.js","assets/QCard.c5055d40.js","assets/format.801e7424.js","assets/AppCard.1a52f7e0.js","assets/AppCard.a3bad766.css","assets/selection.53e9fa99.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
+      { path: "", component: () => __vitePreload(() => import("./HomePage.176fb5de.js"), true ? ["assets/HomePage.176fb5de.js","assets/QInput.9ae5a8b9.js","assets/use-dark.4757ef4a.js","assets/QCard.6eb97340.js","assets/format.801e7424.js","assets/AppCard.d1c49ab6.js","assets/AppCard.a3bad766.css","assets/selection.9464e636.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0) },
       {
         path: "/post/create",
         meta: { title: "\u0421\u0432\u043E\u0440\u0438\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443" },
-        component: () => __vitePreload(() => import("./CreateUpdatePage.79dbc5bb.js"), true ? ["assets/CreateUpdatePage.79dbc5bb.js","assets/CreateUpdatePage.a3fb019f.css","assets/QInput.761f16c6.js","assets/use-dark.bba63d00.js","assets/QCard.c5055d40.js","assets/ClosePopup.29ff04d5.js","assets/use-timeout.53f7577c.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CreateUpdatePage.e6598bb1.js"), true ? ["assets/CreateUpdatePage.e6598bb1.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.9ae5a8b9.js","assets/use-dark.4757ef4a.js","assets/QCard.6eb97340.js","assets/ClosePopup.94fce026.js","assets/use-timeout.7b26b41d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       },
       {
         path: "/post/:idCard",
         meta: { title: "\u041A\u0430\u0440\u0442\u043A\u0430" },
-        component: () => __vitePreload(() => import("./CardPage.11c6bff0.js"), true ? ["assets/CardPage.11c6bff0.js","assets/QCard.c5055d40.js","assets/use-dark.bba63d00.js","assets/ClosePopup.29ff04d5.js","assets/use-timeout.53f7577c.js","assets/AppCard.1a52f7e0.js","assets/AppCard.a3bad766.css","assets/selection.53e9fa99.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CardPage.b5a40610.js"), true ? ["assets/CardPage.b5a40610.js","assets/QCard.6eb97340.js","assets/use-dark.4757ef4a.js","assets/ClosePopup.94fce026.js","assets/use-timeout.7b26b41d.js","assets/AppCard.d1c49ab6.js","assets/AppCard.a3bad766.css","assets/selection.9464e636.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       },
       {
         path: "/post/:idCard/update",
         meta: { title: "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443" },
-        component: () => __vitePreload(() => import("./CreateUpdatePage.79dbc5bb.js"), true ? ["assets/CreateUpdatePage.79dbc5bb.js","assets/CreateUpdatePage.a3fb019f.css","assets/QInput.761f16c6.js","assets/use-dark.bba63d00.js","assets/QCard.c5055d40.js","assets/ClosePopup.29ff04d5.js","assets/use-timeout.53f7577c.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+        component: () => __vitePreload(() => import("./CreateUpdatePage.e6598bb1.js"), true ? ["assets/CreateUpdatePage.e6598bb1.js","assets/CreateUpdatePage.c9bd79ee.css","assets/QInput.9ae5a8b9.js","assets/use-dark.4757ef4a.js","assets/QCard.6eb97340.js","assets/ClosePopup.94fce026.js","assets/use-timeout.7b26b41d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
       }
     ]
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => __vitePreload(() => import("./ErrorNotFound.a3f6208d.js"), true ? ["assets/ErrorNotFound.a3f6208d.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
+    component: () => __vitePreload(() => import("./ErrorNotFound.2b9bde71.js"), true ? ["assets/ErrorNotFound.2b9bde71.js","assets/plugin-vue_export-helper.21dcd24c.js"] : void 0)
   }
 ];
 var createRouter = route(function() {
@@ -13412,7 +13412,7 @@ createQuasarApp(createApp, quasarUserOptions).then((app2) => {
     (bootFiles) => bootFiles.map((entry) => entry.default)
   ];
   return Promise[method]([
-    __vitePreload(() => import("./i18n.d1b47856.js"), true ? [] : void 0),
+    __vitePreload(() => import("./i18n.fe26f4d2.js"), true ? [] : void 0),
     __vitePreload(() => Promise.resolve().then(function() {
       return axios$1;
     }), true ? void 0 : void 0)

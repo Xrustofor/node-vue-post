@@ -13,6 +13,9 @@ const CONFIG = {
     PATH: `http://localhost:${process.env.PORT}`,
     CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL || '',
     PRIMARY_KEY: process.env.GOOGLE_PRIMARY_KEY || '',
+    FOLDER_ID: process.env.GOOGLE_FOLDER_ID || '',
+    GOOGLE_IMAGE_URL: process.env.GOOGLE_IMAGE_URL || '',
+    
   };
   
   if (process.env.NODE_ENV === 'production') {
@@ -26,6 +29,8 @@ const CONFIG = {
     CONFIG.PATH = process.env.PATH || '.';
     CONFIG.CLIENT_EMAIL = process.env.CLIENT_EMAIL || '';
     CONFIG.PRIMARY_KEY = process.env.PRIMARY_KEY || '';
+    CONFIG.FOLDER_ID = process.env.GOOGLE_FOLDER_ID || '';
+    CONFIG.GOOGLE_IMAGE_URL = process.env.GOOGLE_IMAGE_URL || ''
   }
 
   export default CONFIG;

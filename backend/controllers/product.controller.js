@@ -1,10 +1,11 @@
 import { validationResult } from "express-validator";
-import fs from "fs";
+import { google } from "googleapis";
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import Product from "../../backend/models/product.module.js";
 import Image from "../../backend/models/attachment.module.js";
 import db, { openConnection, closeConnection } from '../../backend/db.js';
+import authoriza from "../utils/google.authoriza.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -14,10 +15,7 @@ import CONFIG from "../../env.config.js";
 
 class ProductController {
     async createProduct(req, res) {
-        
         const {title, description, price } = req.body;
-
-        return res.json({success: false})
 
         try{
 
@@ -31,16 +29,14 @@ class ProductController {
                 await product.save();
                 const files = req.files.map(f => ({
                     mimetype: f.mimetype,
-                    filename: f.filename,
+                    uuid: f.uuid,
                     product_id: product.id,
                     size: f.size,
                 }))
                 await Image.bulkCreate(files);
              })
-            
 
-
-            res.status(201).json({success: true});
+             res.status(201).json({success: true});
 
         }catch(err) {
             console.log(err.message);
@@ -135,7 +131,7 @@ class ProductController {
 
                 const images = await Image.findAll({
                     where: { product_id: product.id },
-                    attributes: ['filename']
+                    attributes: ['uuid']
                 })
 
                 await deleteFile(images);
@@ -179,7 +175,7 @@ class ProductController {
                 
                 res.rows = res.rows.map(item => {
                     item.images = item.images.map(img => {
-                        img.dataValues.url = `${CONFIG.PATH}/upload/${img.filename}`; 
+                        img.dataValues.url = `${CONFIG.GOOGLE_IMAGE_URL}${img.uuid}`; 
                         return img;
                     })
                     return item;
@@ -213,7 +209,7 @@ class ProductController {
                   }]
             }).then( res => {
                 res.images = res.images.map(img => {
-                    img.dataValues.url = `${CONFIG.PATH}/upload/${img.filename}`; 
+                    img.dataValues.url = `${CONFIG.GOOGLE_IMAGE_URL}${img.uuid}`; 
                     return img;
                 })
                 return res;
@@ -234,13 +230,37 @@ export default new ProductController();
 
 
 async function deleteFile(images = []) {
+    console.log("Start Delete...")
     await images.forEach( async (image) => {
-        await fs.unlink(
-            join(upload_url, image.dataValues.filename),
-            async (err) => {
-                if(err) throw err;
-                console.log(`File ${image.dataValues.filename} deleted!`);
-            }
-        )
+        const uuid = image.dataValues.uuid;
+
+        return new Promise( async (resolve, reject) => {
+            const authClient = await authoriza();
+            const drive = google.drive({version: "v3", auth: authClient});
+            drive.files.delete({
+                fileId: uuid
+            }, (err, file) => {
+                if(err){ return reject(err)};
+                console.log("Deleted")
+                resolve(file);
+            })
+            // let fileMetaData = {
+            //     name: fileName,
+            //     parents: [CONFIG.FOLDER_ID]
+            // }
+      
+            // drive.files.create({
+            //     resource: fileMetaData,
+            //     media: {
+            //         body: bufferToStream(file.data),
+            //         mimeType: mimetype
+            //     },
+            //     fields: 'id'
+            // }, function(err, file) {
+            //     if(err){ return reject(err)};
+            //     console.log("Upload")
+            //     resolve(file);
+            // })
+        })
     })
 }

@@ -3,7 +3,6 @@ import crypto from "crypto"
 import CONFIG from "../../env.config.js";
 import fs from "fs";
 import { Readable } from "stream";
-import stream from "../utils/stream.js"
 
 const SCOPE = ["https://www.googleapis.com/auth/drive"];
 
@@ -13,8 +12,7 @@ class FileController {
     async uploadFile(req, res, next) {
         // console.log(await authoriza())
         
-        // console.log(req.files)
-        // console.log();
+        
 
         try{
             const files = req.files.image;
@@ -22,39 +20,11 @@ class FileController {
             if(Array.isArray(files)){
                 console.log('Array')
             }else{
-                
-                // console.log(Readable.from(files));
-
-                // files.mv('' + files.name);
-
-            //     console.log(files);
-
-            //     const test = await files.mv('').catch((e) => { console.log(e.message) });
-            //     console.log(test);
-
-               
-            //    const fileName = createFileName(files.mimetype);
-            //    let fileBuffer = files.data;
-            //    fileBuffer.name = fileName;
-            //    const data = stream.createReadStream(new Buffer(fileBuffer)).pipe();
-            //    console.log(data);
-
-               
-
-
-            //    var file = 
-            //    console.log({file})
-            //    const file = fs.createReadStream('fox.jpeg');
-            //    console.log(file)
-            //    const jwtClient = await authoriza();
-            //    const res = await uploadFile(jwtClient, fileBuffer, fileName).catch((err) => { console.log(err.message) })
-            //    console.log(res)
-
-                // const res = await authoriza().then(uploadFile).catch((err) => { console.log(err.message) })
-                // console.log({res})
-
+               const fileName = createFileName(files.mimetype);
+               const jwtClient = await authoriza();
+               const res = await uploadFile(jwtClient, files, fileName).catch((err) => { console.log(err.message) })
+               console.log(res)
             }
-
 
         }catch(e){
             return res.status(500).json({
@@ -83,7 +53,7 @@ async function uploadFile(authClient, file, fileName){
         drive.files.create({
             resource: fileMetaData,
             media: {
-                body: file,
+                body: bufferToStream(file.data),
                 mimeType: 'image/jpeg'
             },
             fields: 'id'
@@ -114,6 +84,15 @@ function createFileName(mimetype){
     return `${crypto.randomUUID()}.${typeImage}`;
 }
 
+
+function bufferToStream(binary) {
+    return new Readable({
+      read() {
+        this.push(binary);
+        this.push(null);
+      }
+    });
+}
 
 
 

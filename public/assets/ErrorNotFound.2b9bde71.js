@@ -1,4 +1,4 @@
-import { d as defineComponent, S as openBlock, _ as createElementBlock, a1 as createBaseVNode, f as createVNode, a3 as QBtn } from "./index.3eb8dcca.js";
+import { d as defineComponent, S as openBlock, _ as createElementBlock, a1 as createBaseVNode, f as createVNode, a3 as QBtn } from "./index.a4ebbcac.js";
 import { _ as _export_sfc } from "./plugin-vue_export-helper.21dcd24c.js";
 const _sfc_main = defineComponent({
   name: "ErrorNotFound"
