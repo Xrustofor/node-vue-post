@@ -31,7 +31,7 @@ const googleUploadFiles = async (req, res, next) => {
       return res.status(500).json({
         success: false,
         message: "Upload error",
-        errors: [e.message]
+        errors: [e]
     })
   }
 }
