@@ -28,7 +28,7 @@ const CONFIG = {
     CONFIG.PORT_CLIENT = process.env.PORT_CLIENT;
     CONFIG.PATH = process.env.PATH || '.';
     CONFIG.CLIENT_EMAIL = process.env.CLIENT_EMAIL || '';
-    CONFIG.PRIMARY_KEY = process.env.PRIMARY_KEY || '';
+    CONFIG.PRIMARY_KEY = process.env.GOOGLE_PRIMARY_KEY || '';
     CONFIG.FOLDER_ID = process.env.GOOGLE_FOLDER_ID || '';
     CONFIG.GOOGLE_IMAGE_URL = process.env.GOOGLE_IMAGE_URL || ''
   }
