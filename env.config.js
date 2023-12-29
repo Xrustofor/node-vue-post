@@ -12,7 +12,7 @@ const CONFIG = {
     PORT_CLIENT:'8080',
     PATH: `http://localhost:${process.env.PORT}`,
     CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL || '',
-    PRIMARY_KEY: process.env.GOOGLE_PRIMARY_KEY || '',
+    PRIMARY_KEY: process.env.GOOGLE_PRIMARY_KEY.replace(/\\n/g, "\n") || '',
     FOLDER_ID: process.env.GOOGLE_FOLDER_ID || '',
     GOOGLE_IMAGE_URL: process.env.GOOGLE_IMAGE_URL || '',
     
@@ -28,7 +28,7 @@ const CONFIG = {
     CONFIG.PORT_CLIENT = process.env.PORT_CLIENT;
     CONFIG.PATH = process.env.PATH || '.';
     CONFIG.CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL || '';
-    CONFIG.PRIMARY_KEY = process.env.GOOGLE_PRIMARY_KEY || '';
+    CONFIG.PRIMARY_KEY = process.env.GOOGLE_PRIMARY_KEY.replace(/\\n/g, "\n") || '';
     CONFIG.FOLDER_ID = process.env.GOOGLE_FOLDER_ID || '';
     CONFIG.GOOGLE_IMAGE_URL = process.env.GOOGLE_IMAGE_URL || ''
   }
